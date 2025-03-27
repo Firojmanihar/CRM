@@ -46,3 +46,13 @@ Dashboard: View customer insights and sales analytics.
 
 5.Submit a pull request.
 
+# CRM Images
+![Image](https://github.com/user-attachments/assets/ba4a7552-d44a-435e-a500-e95c53dd9b8e)
+
+![Image](https://github.com/user-attachments/assets/cb72ff7c-7dd8-483b-96f1-266eb5bf407d)
+
+![Image](https://github.com/user-attachments/assets/d53858a1-ea0e-49e1-9e18-45c186c25690)
+
+![Image](https://github.com/user-attachments/assets/175c7cd4-8f64-4533-8a79-b1808137203c)
+
+![Image](https://github.com/user-attachments/assets/9eb790b2-9cf0-4227-a139-cb9f1aee30c8)
