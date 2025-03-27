@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Upload Modal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+
+        .btn-open {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+            text-align: left;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .close {
+            cursor: pointer;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .note {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="btn-open" onclick="openModal()">Open CSV Upload</button>
+
+    <div class="overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                CSV Upload System
+                <i class="fa fa-times close" onclick="closeModal()"></i>
+            </div>
+            <div class="upload-area" onclick="triggerFileInput()">
+                <input type="file" id="fileInput" style="display: none;">
+                <p><strong>Click here to Upload CSV file</strong><br>OR drag and drop the CSV file</p>
+            </div>
+            <p class="note">Note:</p>
+            <p>Please <a href="#">Click Here</a> to see the sample of CSV.</p>
+            <p><strong>Required Fields*:</strong></p>
+            <ul>
+                <li>(*) name</li>
+                <li>(*) currency_code (INR, USD, EUR, GBP)</li>
+                <li>(*) unit_type (MT, nos, Package, Set, KG, etc.)</li>
+                <li>(*) description</li>
+                <li>(*) price</li>
+                <li>(*) unit (For Ex.,1)</li>
+                <li>(*) product_available_for ('E'- Export, 'D'- Domestic, 'A'- All)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("modalOverlay").style.display = "flex";
+        }
+        function closeModal() {
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+        function triggerFileInput() {
+            document.getElementById("fileInput").click();
+        }
+    </script>
+</body>
+
+</html>

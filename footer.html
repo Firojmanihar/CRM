@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 100vh;
+            background-color: #f8f5f8;
+        }
+
+        .footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f5f8;
+            font-size: 14px;
+            color: #333;
+        }
+
+        @keyframes glow1 {
+            0% {
+                text-shadow: 0 0 5px #020202, 0 0 10px #019dda, 0 0 05px #00b7ff;
+            }
+
+            50% {
+                text-shadow: 0 0 10px #030303, 0 0 20px #019dda, 0 0 10px #00b7ff;
+            }
+
+            100% {
+                text-shadow: 0 0 5px #6e6e6e, 0 0 10px #696969, 0 0 15px #6e6e6e;
+            }
+        }
+
+        /*@keyframes glow1 {
+            0% { text-shadow: 0 0 5px #020202, 0 0 10px #019dda, 0 0 15px #00b7ff; }
+            50% { text-shadow: 0 0 10px #030303, 0 0 20px #019dda, 0 0 30px #00b7ff; }
+            100% { text-shadow: 0 0 5px #000000, 0 0 10px #019dda, 0 0 15px #04b8ff; }
+        }*/
+
+        .glow {
+            color: #67db8c;
+            animation: glow1 1.5s infinite alternate;
+            text-align: center;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 40px;
+            margin-top: 1px;
+            margin-right: 60px;
+            margin-bottom: 1px;
+            margin-left: 30px
+        }
+    </style>
+</head>
+
+<body>
+
+    <footer class="footer">
+        <p>Copyright © 2025, Groweon.com. All rights reserved.</p>
+        <a class="navbar-brand text-light" href="{% url 'dashboard' %}">
+            <p class="glow">Sihauli</p>
+        </a>
+    </footer>
+
+</body>
+
+</html>

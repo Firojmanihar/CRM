@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMTP Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+    .container {
+      display: flex;
+      max-width: 1800px;
+      margin-top: 20px;
+      margin-left: 70px;
+
+    }
+
+    /* Main Content (Email Settings) */
+    .email-settings {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      height: 608px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    .btn-primary {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+  <div class="container">
+    <!-- General Settings Sidebar -->
+    <div>
+      {% include "myapp/general_sidebar.html" %}
+    </div>
+
+
+    <!-- Email Settings -->
+    <div class="email-settings">
+      <h2>What is Auto Lead Regret?</h2>
+      <p>
+        Auto Lead Regret is an option to keep your lead board clean and workable by removing unfollowed leads after a
+        certain time period.
+        You can choose the time period between <b>10 days to 30 days</b> of your last follow-up date.
+      </p>
+      <p>
+        <b>For example:</b> If you select Auto Lead Regret period of <b>10 days</b> and there is a lead with a next
+        follow-up date of 10 Jan 2022 but
+        you are not following this lead till 19th Jan 2022, then on 20th Jan 2022, this lead will be marked as Auto
+        Regretted.
+        You can make this lead active by setting a new follow-up date at any given point in time.
+      </p>
+
+      <form id="autoLeadRegretForm">
+        <div class="checkbox-container">
+          <input type="checkbox" id="autoLeadRegret" name="auto_lead_regret" {% if auto_regret_enabled %}checked{% endif
+            %}>
+          <label for="autoLeadRegret">Auto Lead Regretted</label>
+        </div>
+
+        <div class="form-group">
+          <label for="regretDays">Mark unfollowed leads as Auto Lead Regretted after</label>
+          <input type="number" id="regretDays" name="regret_days" class="form-control" min="10" max="30"
+            value="{{ regret_days }}">
+          <span>Days.</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Save</button>
+      </form>
+    </div>
+  </div>
+
+
+  <script>
+    $("#autoLeadRegretForm").submit(function (event) {
+      event.preventDefault();
+      let isChecked = $("#autoLeadRegret").is(":checked") ? 1 : 0;
+      let regretDays = $("#regretDays").val();
+
+      $.post("/save_auto_regret/", {
+        auto_lead_regret: isChecked,
+        regret_days: regretDays,
+        csrfmiddlewaretoken: "{{ csrf_token }}"
+      }, function (response) {
+        alert(response.message);
+      });
+    });
+  </script>
+</body>
+
+</html>

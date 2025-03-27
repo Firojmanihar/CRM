@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 50%;
+            margin: 10% auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            position: relative;
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .header-right {
+            position: absolute;
+            bottom: -40px;
+            right: 10px;
+        }
+
+        .quote-option {
+            background: #a7ddf5;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <span>Requirement for <strong>FORMALIN Neutralizer Powder</strong> (Lead #2549)</span>
+            <span class="close" id="header-close">&times;</span>
+        </div>
+        <div class="header-right">
+            <button id="create-quotation" class="btn">+ Create Quotation</button>
+        </div>
+        <div class="content">
+            <p>No Quotation Found.</p>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="quotation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="modal-close">&times;</span>
+            <h2>Create Quotation</h2>
+            <a href="{% url 'search_product_popup' %}">
+                <div class="quote-option" id="generate-pdf">Generate PDF Quotation (Recommended)</div>
+            </a>
+            <a href="#">
+                <div class="quote-option" id="send-custom">Send Custom Quotation (PDF File Only)</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Product Search Modal -->
+    <div id="product-search-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" id="product-modal-close">&times;</span>
+            <h2>Search Products</h2>
+            <input type="text" id="search-input" placeholder="Enter product name" style="width: 80%; padding: 5px;">
+            <button class="btn" id="search-btn">Search</button>
+            <p>No products found!</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("create-quotation").addEventListener("click", function () {
+            document.getElementById("quotation-modal").style.display = "block";
+        });
+
+        document.getElementById("modal-close").addEventListener("click", function () {
+            document.getElementById("quotation-modal").style.display = "none";
+        });
+
+        document.getElementById("header-close").addEventListener("click", function () {
+            document.querySelector(".container").style.display = "none";
+        });
+
+        document.getElementById("generate-pdf").addEventListener("click", function () {
+            document.getElementById("quotation-modal").style.display = "none";
+            document.getElementById("product-search-modal").classList.remove("hidden");
+            document.getElementById("product-search-modal").style.display = "block";
+        });
+
+        document.getElementById("send-custom").addEventListener("click", function () {
+            document.getElementById("quotation-modal").style.display = "none";
+            document.getElementById("product-search-modal").classList.remove("hidden");
+            document.getElementById("product-search-modal").style.display = "block";
+        });
+
+        document.getElementById("product-modal-close").addEventListener("click", function () {
+            document.getElementById("product-search-modal").style.display = "none";
+        });
+
+        window.onclick = function (event) {
+            if (event.target == document.getElementById("quotation-modal")) {
+                document.getElementById("quotation-modal").style.display = "none";
+            }
+            if (event.target == document.getElementById("product-search-modal")) {
+                document.getElementById("product-search-modal").style.display = "none";
+            }
+        };
+    </script>
+</body>
+
+</html>

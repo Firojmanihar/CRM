@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMTP Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+    .container {
+      display: flex;
+      max-width: 1800px;
+      margin-top: 20px;
+      margin-left: 70px;
+
+    }
+
+
+
+    /* Main Content (Email Settings) */
+    .email-settings {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      height: 608px;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 70%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    button {
+      padding: 8px 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .actions {
+      text-align: right;
+    }
+
+    .delete-btn,
+    .edit-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-left: 5px;
+    }
+
+    .edit-btn {
+      background: gray;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+
+
+  <div class="container">
+
+    <div>
+      {% include "myapp/general_sidebar.html" %}
+    </div>
+
+
+
+    <!-- Email Settings -->
+    <div class="email-settings" style="height: auto;">
+      <h2 style="margin-bottom:20px;">Product Unit Type List</h2>
+      <p style="margin-bottom:10px;"><b>Add New Unit Type:</b></p>
+
+      <input type="text" style="height:40px;" id="unitTypeName" placeholder="Enter unit type">
+      <button onclick="addUnitType()" Style="width:120px;height:40px;">Add</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Unit Type</th>
+            <th class="actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="unitTypeTable">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+
+
+
+
+    function addUnitType() {
+      let name = document.getElementById("unitTypeName").value;
+      if (!name.trim()) {
+        alert("Please enter a unit type!");
+        return;
+      }
+
+      let table = document.getElementById("unitTypeTable");
+      let row = document.createElement("tr");
+      let id = new Date().getTime();
+      row.id = "row-" + id;
+      row.innerHTML = `
+            <td>${name}</td>
+            <td class="actions">
+                <button class="edit-btn" onclick="editUnit(${id}, '${name}')"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn" onclick="deleteUnit(${id})"><i class="fas fa-trash"></i></button>
+            </td>`;
+      table.appendChild(row);
+      document.getElementById("unitTypeName").value = "";
+    }
+
+    function deleteUnit(id) {
+      if (!confirm("Are you sure you want to delete this unit type?")) return;
+      document.getElementById("row-" + id).remove();
+    }
+
+    function editUnit(id, name) {
+      let newName = prompt("Edit Unit Type:", name);
+      if (newName && newName.trim()) {
+        document.querySelector(`#row-${id} td:first-child`).innerText = newName;
+      }
+    }
+  </script>
+</body>
+
+</html>

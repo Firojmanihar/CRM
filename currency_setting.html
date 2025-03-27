@@ -1,0 +1,342 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            justify-content: space-between;
+        }
+
+        .form-row input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 8px 25px;
+            height: 38px;
+            border-radius: 4px;
+            margin-bottom: -25px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .action-btn {
+            background: grey;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .checkbox {
+            justify-content: center;
+        }
+
+        /* Modal Background */
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 500px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Modal Header */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        .close-btn {
+            border: none;
+            font-size: 14px;
+
+        }
+
+        /* Modal Body */
+        .modal-body {
+            margin-top: 10px;
+        }
+
+        .modal-body label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .modal-body input {
+            width: 95%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 1px;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .edit-btn {
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 1px;
+        }
+
+        .edit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+
+
+        <!-- Email Settings -->
+        <div class="email-settings" style="height: auto;">
+            <h2 style="margin-bottom:20px;">📄 Currency Setting</h2>
+            <p style="margin-bottom:20px;"><b>Add New:</b></p>
+            <form id="currencyForm">
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="currencyName">Name:</label>
+                            <input type="text" id="currencyName" placeholder="Currency Name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="currencyCode">Code:</label>
+                            <input type="text" id="currencyCode" placeholder="Currency Code" required>
+                        </div>
+                        <button type="submit">Add</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Show</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="currencyTableBody">
+                        <tr>
+                            <td>1</td>
+                            <td>Euro</td>
+                            <td>EUR</td>
+                            <td class="checkbox"><input type="checkbox" checked></td>
+                            <td>
+                                <button class="action-btn edit-btn" onclick="openModal('Euro', 'EUR')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Indian Rupees</td>
+                            <td>INR</td>
+                            <td class="checkbox"><input type="checkbox" checked></td>
+                            <td>
+                                <button class="action-btn edit-btn" onclick="openModal('Indian Rupees', 'INR')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Pound</td>
+                            <td>GBP</td>
+                            <td class="checkbox"><input type="checkbox" checked></td>
+                            <td>
+                                <button class="action-btn edit-btn" onclick="openModal('Indian Rupees', 'INR')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>United States Dollar</td>
+                            <td>USD</td>
+                            <td class="checkbox"><input type="checkbox" checked></td>
+                            <td>
+                                <button class="action-btn edit-btn" onclick="openModal('Indian Rupees', 'INR')">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="editModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Currency</h3>
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <label>Name:</label>
+                    <input type="text" id="editName">
+
+                    <label>Code:</label>
+                    <input type="text" id="editCode">
+                </div>
+                <div class="modal-footer">
+                    <button class="edit-btn" onclick="saveChanges()">Edit</button>
+                    <button class="close-btn" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(name, code) {
+            document.getElementById("editName").value = name;
+            document.getElementById("editCode").value = code;
+            document.getElementById("editModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("editModal").style.display = "none";
+        }
+
+        function saveChanges() {
+            let name = document.getElementById("editName").value;
+            let code = document.getElementById("editCode").value;
+            alert(`Updated Currency: ${name} (${code})`);
+            closeModal();
+        }
+    </script>
+
+</body>
+
+</html>

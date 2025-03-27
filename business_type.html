@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+        }
+
+        .email-settings {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .btn-edit {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .business-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .business-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Ensure list stays inside the box */
+
+
+        /* Prevent scrollbar from making content too wide */
+        .email-settings::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .email-settings::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+        <div class="email-settings" style="height: auto;">
+            <h2>📋 Business Type List</h2>
+
+            <!-- Add New Business Type -->
+            <div class="mb-3">
+                <label for="businessType" class="form-label">Add New Business Type:</label>
+                <input type="text" id="businessType" class="form-control" placeholder="Enter business type">
+                <button class="btn btn-primary mt-2" style="width:100px;" onclick="addBusinessType()">Add</button>
+            </div>
+
+            <!-- Business Type List -->
+            <div id="businessList">
+                <div class="business-item">
+                    <span>Importer</span>
+                    <div>
+                        <button class="btn btn-sm btn-edit" onclick="editBusinessType(this)">✎</button>
+                        <button class="btn btn-sm btn-delete" onclick="deleteBusinessType(this)">🗑</button>
+                    </div>
+                </div>
+                <div class="business-item">
+                    <span>Service Provider</span>
+                    <div>
+                        <button class="btn btn-sm btn-edit" onclick="editBusinessType(this)">✎</button>
+                        <button class="btn btn-sm btn-delete" onclick="deleteBusinessType(this)">🗑</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addBusinessType() {
+            let businessInput = document.getElementById("businessType");
+            let businessName = businessInput.value.trim();
+
+            if (businessName === "") {
+                alert("Please enter a business type.");
+                return;
+            }
+
+            let businessList = document.getElementById("businessList");
+            let newBusiness = document.createElement("div");
+            newBusiness.classList.add("business-item");
+
+            newBusiness.innerHTML = `
+            <span>${businessName}</span>
+            <div>
+                <button class="btn btn-sm btn-edit" onclick="editBusinessType(this)">✎</button>
+                <button class="btn btn-sm btn-delete" onclick="deleteBusinessType(this)">🗑</button>
+            </div>
+        `;
+
+            businessList.appendChild(newBusiness);
+            businessInput.value = "";
+        }
+
+        function deleteBusinessType(button) {
+            if (confirm("Are you sure you want to delete this business type?")) {
+                button.closest(".business-item").remove();
+            }
+        }
+
+        function editBusinessType(button) {
+            let businessSpan = button.closest(".business-item").querySelector("span");
+            let newName = prompt("Edit Business Type:", businessSpan.textContent);
+
+            if (newName !== null && newName.trim() !== "") {
+                businessSpan.textContent = newName;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

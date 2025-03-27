@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Menu Label</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8fafc;
+            padding: 20px;
+        }
+
+        /* .container {
+            max-width: 70%;
+            margin: auto;
+            display: flex;
+            padding: 20px;
+        } */
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        .main-content {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .table th {
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+
+        .form-control {
+            width: 70%;
+            padding: 5px;
+        }
+
+        .btn-save {
+            margin-top: 15px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div class="container">
+
+
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+        <!-- Main content -->
+        <div class="main-content" style="height: auto;">
+            <h2><i class="bi bi-tag"></i> Manage Menu Label</h2>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Menu Labels</th>
+                        <th>Menu Labels Alias</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Leads</td>
+                        <td><input type="text" class="form-control" value="Leads"></td>
+                    </tr>
+                    <tr>
+                        <td>Companies</td>
+                        <td><input type="text" class="form-control" value="Companies"></td>
+                    </tr>
+                    <tr>
+                        <td>Users</td>
+                        <td><input type="text" class="form-control" value="Users"></td>
+                    </tr>
+                    <tr>
+                        <td>Products</td>
+                        <td><input type="text" class="form-control" value="Products"></td>
+                    </tr>
+                    <tr>
+                        <td>Vendors</td>
+                        <td><input type="text" class="form-control" value="Vendors"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Customer Document Type</td>
+                        <td><input type="text" class="form-control" value="Users"></td>
+                    </tr>
+
+                    <tr>
+                        <td>User Assignment</td>
+                        <td><input type="text" class="form-control" value="Users"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary btn-save" id="saveButton">Save</button>
+        </div>
+    </div>
+    </div>
+    <script>
+        $("#saveButton").click(function () {
+            let labels = [];
+            $("tbody tr").each(function () {
+                let menuLabel = $(this).find("td:first").text();
+                let alias = $(this).find("input").val();
+                labels.push({ menuLabel, alias });
+            });
+            alert("Saved Menu Labels: " + JSON.stringify(labels, null, 2));
+        });
+
+
+
+
+    </script>
+
+</body>
+
+</html>

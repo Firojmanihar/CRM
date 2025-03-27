@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 0;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #008cba;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .filter-section {
+            padding: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        select,
+        input[type="date"],
+        button {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .button-group button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .search-btn {
+            background-color: #008cba;
+        }
+
+        .reset-btn {
+            background-color: #ff4d4d;
+        }
+
+        .search-btn:hover {
+            background-color: #005f73;
+        }
+
+        .reset-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .toggle-btn {
+            background-color: #0072a3;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-size: 14px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .source-box {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .source-box label {
+            width: 45%;
+            display: flex;
+            align-items: center;
+        }
+
+        .source-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">FILTERS</div>
+
+        <div class="filter-section">
+            <div class="row" style="margin-bottom: 20px;">
+                <label>Added on</label>
+                <input type="date" id="enquiry_date_from">
+                <label>To</label>
+                <input type="date" id="enquiry_date_to">
+            </div>
+
+            <div class="row" style="margin-bottom: 20px;">
+                <label>By User</label>
+                <select id="user">
+                    <option value="">--Select--</option>
+                    <option>Deepak</option>
+                    <option>Anup</option>
+                    <option>Komal</option>
+
+                </select>
+                <label><input type="checkbox" id="export"> Export</label>
+                <label><input type="checkbox" id="domestic"> Domestic</label>
+            </div>
+
+            <label>Options</label>
+            <div class="radio-group" style="margin-bottom: 20px;">
+                <label><input type="radio" name="company_name" value="with"> With Company Name</label>
+                <label><input type="radio" name="company_name" value="without"> Without Company Name</label>
+                <label><input type="radio" name="email" value="with"> With Email</label>
+                <label><input type="radio" name="email" value="without"> Without Email</label>
+                <label><input type="radio" name="phone" value="with"> With Phone</label>
+                <label><input type="radio" name="phone" value="without"> Without Phone</label>
+            </div>
+
+            <div class="row" style="margin-bottom: 20px;">
+                <label>Business Type</label>
+                <select id="business_type">
+                    <option value="">Select Business Type</option>
+                    <option>Manufacturer</option>
+                    <option>Exporter</option>
+                    <option>Importer</option>
+                    <option>Wholesaler</option>
+                    <option>Dealer</option>
+                    <option>Service Provider</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="row" style="margin-bottom: 20px;">
+                <label style="margin-bottom: 20px;">By Country</label>
+                <select id="country">
+                    <option value="">None selected</option>
+                    <option value="india">India</option>
+                    <option value="usa">USA</option>
+                </select>
+                <label><input type="radio" name="company_status" value="paying" checked> Paying Companies</label>
+                <label><input type="radio" name="company_status" value="free"> Free Companies</label>
+                <label><input type="radio" name="company_status" value="blacklisted"> Blacklisted</label>
+            </div>
+
+            <button class="toggle-btn">By Source</button>
+
+            <div class="source-box">
+                <label><input type="checkbox"> None</label>
+                <div class="source-container">
+                    <label><input type="checkbox"> Ali Baba</label>
+                    <label><input type="checkbox"> Auto Ticket</label>
+                    <label><input type="checkbox"> bfvbfgb</label>
+                    <label><input type="checkbox"> Business Associates</label>
+                    <label><input type="checkbox"> Call Enquiry</label>
+                    <label><input type="checkbox"> Call Log</label>
+                    <label><input type="checkbox"> Direct Visit</label>
+                    <label><input type="checkbox"> Email Enquiry</label>
+                    <label><input type="checkbox"> Indiamart</label>
+                    <label><input type="checkbox"> Indiamart Buylead</label>
+                    <label><input type="checkbox"> Indiamart Call Enquiry</label>
+                    <label><input type="checkbox"> Newspaper Ads</label>
+                    <label><input type="checkbox"> Online Marketplace</label>
+                    <label><input type="checkbox"> Sales Visit</label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="search-btn">Search</button>
+                <button class="reset-btn" onclick="resetFilters()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function resetFilters() {
+            document.querySelectorAll("input, select").forEach(el => {
+                if (el.type === "checkbox" || el.type === "radio") {
+                    el.checked = false;
+                } else {
+                    el.value = "";
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

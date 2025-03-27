@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule New Meeting</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-row,
+        .form-row-50,
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-row .form-group,
+        .form-row-50 .form-group {
+            width: 48%;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-save {
+            background-color: #ffcc00;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Schedule New Meeting</h3>
+        <p><strong>Company:</strong> Pangalark Laboratory Technology</p>
+        <div class="buttons">
+            <button class="btn btn-primary">Visit</button>
+            <button class="btn btn-outline-primary">Online</button>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Meeting Date</label>
+                    <input type="date" name="meeting_date">
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="time" name="start_time">
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="time" name="end_time">
+                </div>
+            </div>
+            <div class="form-row-50">
+                <div class="form-group">
+                    <label>Meeting Assigned To</label>
+                    <select name="assigned_to">
+                        <option value="">--Select--</option>
+                        <option value="1">Deepak</option>
+                        <option value="2">Anup</option>
+                        <option value="2">Anand</option>
+                        <option value="2">Komal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Meeting With</label>
+                    <select name="meeting_with">
+                        <option value="">--Select--</option>
+                        <option value="client1">Client 1</option>
+                        <option value="client2">Client 2</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Purpose</label>
+                <select name="purpose">
+                    <option value="sales">Sales</option>
+                    <option value="support">Service</option>
+                    <option value="support">Renewal</option>
+                    <option value="support">Complaint</option>
+                    <option value="support">training</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Venue</label>
+                <input type="text" name="venue">
+            </div>
+            <div class="form-group">
+                <label>Remarks</label>
+                <textarea name="remarks" rows="3"></textarea>
+            </div>
+            <div class="footer-row">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="sendEmail" name="send_email">
+                    <label for="sendEmail">Send Invite on Email</label>
+                </div>
+                <button type="submit" class="btn-save">SAVE</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

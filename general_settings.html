@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMTP Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'myapp/css/general_settings.css' %}">
+  <style>
+
+  </style>
+</head>
+
+<body>
+
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+
+  <div class="container">
+
+    <div>
+      {% include "myapp/general_sidebar.html" %}
+    </div>
+
+
+
+
+    <!-- Main Content -->
+    <div class="email-settings">
+      <h2>📧 SMTP Settings <a href="#" class="add-button" onclick="toggleForm()">+ Add</a></h2>
+
+      <form class="smtp-form" id="smtpForm" method="post">
+        {% csrf_token %}
+        <label>SMTP Server:</label>
+        <input type="radio" name="smtp_server" value="gmail" />Gmail<input type="radio" name="smtp_server"
+          value="other" />Other<div class="form-container">
+          <div class="left-side">
+            <div class="input-group">
+              <label>Host:</label>
+              <input type="text" name="host" />
+            </div>
+            <div class="input-group">
+              <label>Port:</label>
+              <input type="text" name="port" />
+            </div>
+          </div>
+
+          <div class="right-side">
+            <div class="input-group">
+              <label>Email:</label>
+              <input type="email" name="email" />
+            </div>
+
+            <div class="input-group">
+              <label>Password:</label>
+              <input type="password" id="passwordField" name="password" />
+              <span class="toggle-password" onclick="togglePassword()">Show</span>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-save">Save</button>
+        <button type="button" class="btn btn-close" onclick="toggleForm()">Close</button>
+      </form>
+
+      <table class="settings-table">
+        <thead>
+          <tr>
+            <th>Mail Server</th>
+            <th>Username</th>
+            <th>Active</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Gmail</td>
+            <td>sales@sihaulichemicals.com</td>
+            <td>
+              <div class="toggle-container">
+                <span class="toggle-label-off">OFF</span>
+                <label class="switch">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+                <span class="toggle-label-on">ON</span>
+              </div>
+            </td>
+            <td class="action-buttons">
+              <button class="edit-btn">✏️</button>
+              <button class="delete-btn">🗑️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+
+  <script>
+
+
+
+
+
+    function toggleForm() {
+      var form = document.getElementById("smtpForm");
+      form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+    function togglePassword() {
+      var passwordField = document.getElementById("passwordField");
+      passwordField.type = passwordField.type === "password" ? "text" : "password";
+    }
+
+    $(".delete-btn").click(function () {
+      if (confirm("Are you sure you want to delete this?")) {
+        $(this).closest("tr").remove();
+      }
+    });
+
+    function toggleSubmenu(id) {
+      // Close all submenus first
+      var submenus = document.querySelectorAll(".submenu");
+      submenus.forEach(function (submenu) {
+        if (submenu.id !== id) {
+          submenu.style.display = "none";
+        }
+      });
+
+      // Toggle the clicked submenu
+      var submenu = document.getElementById(id);
+      submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+
+</html>

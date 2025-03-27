@@ -1,0 +1,379 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMTP Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+
+    }
+
+
+
+    /* Sidebar (General Settings) */
+    .general-settings {
+      width: 340px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      height: fit-content;
+      z-index: 3px;
+    }
+
+    .general-settings h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #4caf50;
+      height: fit-content;
+    }
+
+    .sidebar {
+      width: 300px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      color: white;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 10px;
+      border-radius: 8px;
+      transition: 0.3s;
+      font-size: 16px;
+
+    }
+
+    .sidebar ul li:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    /* .submenu1 {
+            list-style: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: white;
+            color: black;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: none;
+            min-width: 200px;
+        } */
+
+
+    .submenu1 {
+      display: none;
+      /* Hide submenu1s by default */
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background: white;
+      color: black;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      min-width: 200px;
+    }
+
+    .submenu1 li {
+      padding: 10px;
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      margin: 6px 0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .submenu1 li:hover {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Icons */
+    .sidebar ul li i {
+      font-size: 20px;
+    }
+
+    /* Main Content (Email Settings) */
+    .email-settings {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      height: 608px;
+    }
+
+    .sms-settings {
+      border: 1px solid #ddd;
+      padding: 20px;
+      width: 100%;
+      height: 570px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .sms-settings h2 {
+      display: flex;
+      align-items: center;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .sms-settings h2::before {
+      content: "💬";
+      margin-right: 8px;
+    }
+
+    .not-active {
+      color: red;
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .note {
+      color: green;
+      font-size: 14px;
+    }
+
+    .submenu1 {
+      list-style: none;
+      padding-left: 15px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <!-- General Settings Sidebar -->
+  <div class="general-settings">
+    <div class="sidebar">
+      <h2><i class="fa-solid fa-cog"></i><a href="#" style="text-decoration: none; color: inherit;"> General
+          Settings</a></h2>
+      <ul>
+
+        <li onclick="togglesubmenu1('SMTP-settings', event)">
+          <i class="fa-solid fa-bell"></i><a href="{% url 'smtp_settings' %}"
+            style="text-decoration: none; color: inherit;"> SMTP Settings </a>
+        </li>
+
+
+        <li onclick="togglesubmenu1('notification-settings', event)">
+          <i class="fa-solid fa-bell"></i>
+          <a href="#" style="text-decoration: none; color: inherit;">Notification Settings</a> ▼
+          <ul class="submenu1" id="notification-settings">
+            <li><a href="{% url 'email_notification' %}" style="text-decoration: none; color: inherit;">Email
+                Notifications Settings</a></li>
+            <li><a href="{% url 'sms_notification' %}" style="text-decoration: none; color: inherit;">SMS Notifications
+                Settings</a></li>
+            <li><a href="{% url 'whatsapp_notification' %}" style="text-decoration: none; color: inherit;">Whatsapp
+                Notifications Settings</a></li>
+            <li><a href="{% url 'voice_notification' %}" style="text-decoration: none; color: inherit;">Voice msg
+                Notifications Settings</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('lead-settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Lead Settings ▼
+          <ul class="submenu1" id="lead-settings">
+            <li> <a href="{% url 'addlead_settings' %}" style="text-decoration: none; color: inherit;">Add Lead</a></li>
+            <li> <a href="{% url 'lead_region_setting' %}" style="text-decoration: none; color: inherit;">Lead
+                Region</a></li>
+            <li> <a href="{% url 'lead_sources' %}" style="text-decoration: none; color: inherit;">Lead Source</a></li>
+            <li> <a href="{% url 'lead_stage_form' %}" style="text-decoration: none; color: inherit;">Lead Stage
+                Form</a></li>
+            <li> <a href="{% url 'lead_stage_setting' %}" style="text-decoration: none; color: inherit;">Lead Stage
+                Settings</a></li>
+            <li> <a href="{% url 'regret_regions' %}" style="text-decoration: none; color: inherit;">Lead Regret
+                Reasons</a></li>
+            <li> <a href="{% url 'manage_menu_level' %}" style="text-decoration: none; color: inherit;">Manage Menu
+                label</a></li>
+            <li> <a href="{% url 'custom_messages' %}" style="text-decoration: none; color: inherit;">Custom
+                Messages</a></li>
+            <li> <a href="{% url 'business_type' %}" style="text-decoration: none; color: inherit;">Business Type</a>
+            </li>
+            <li> <a href="{% url 'customer_document_type' %}" style="text-decoration: none; color: inherit;">Customer
+                Document Type</a></li>
+            <li> <a href="{% url 'user_assignment' %}" style="text-decoration: none; color: inherit;">User
+                Assignment</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('product_management_settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Product Management Settings ▼
+          <ul class="submenu1" id="product_management_settings">
+            <li> <a href="{% url 'product_groups' %}" style="text-decoration: none; color: inherit;">Product Group</a>
+            </li>
+            <li> <a href="{% url 'product_category_list' %}" style="text-decoration: none; color: inherit;">Product
+                Category</a></li>
+            <li> <a href="{% url 'product_unit_type' %}" style="text-decoration: none; color: inherit;">Product Unit
+                Type</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('product_items_management_settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Product Items Management Settings ▼
+          <ul class="submenu1" id="product_items_management_settings">
+            <li> <a href="{% url 'product_item_group' %}" style="text-decoration: none; color: inherit;">Product Items
+                Group</a></li>
+            <li> <a href="{% url 'product_item_category' %}" style="text-decoration: none; color: inherit;">Product
+                Items Category</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('quotation_settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Quotation Settings ▼
+          <ul class="submenu1" id="quotation_settings">
+            <li> <a href="{% url 'quote_terms_condition' %}" style="text-decoration: none; color: inherit;">Quote Terms
+                & Conditions</a></li>
+            <li> <a href="{% url 'additional_charges' %}" style="text-decoration: none; color: inherit;">Additional
+                Charges</a></li>
+            <li> <a href="{% url 'number_settings' %}" style="text-decoration: none; color: inherit;">Number
+                settings</a></li>
+            <li> <a href="{% url 'quote_general' %}" style="text-decoration: none; color: inherit;">General</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('other_settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Other Settings ▼
+          <ul class="submenu1" id="other_settings">
+            <li><a href="{% url 'user_type' %}" style="text-decoration: none; color: inherit;">User Type</a></li>
+            <li><a href="{% url 'my_documents' %}" style="text-decoration: none; color: inherit;">My Documents</a></li>
+            <li><a href="{% url 'auto_session_expire' %}" style="text-decoration: none; color: inherit;">Auto Sessions
+                Expire</a></li>
+
+            <!-- Sales Order Settings with Submenus -->
+            <li onclick="togglesubmenu1('sales_order_settings', event)">
+              <a href="#" style="text-decoration: none; color: inherit;">Sales Order Settings ▼</a>
+              <ul class="submenu1" id="sales_order_settings" style="display: none;">
+                <li><a href="{% url 'sales_order_general' %}" style="text-decoration: none; color: inherit;">General</a>
+                </li>
+                <li><a href="{% url 'sales_order_number_setting' %}"
+                    style="text-decoration: none; color: inherit;">Sales Number Settings</a></li>
+              </ul>
+            </li>
+
+            <li><a href="{% url 'proforma_number_settings' %}" style="text-decoration: none; color: inherit;">Proforma
+                Invoice Number Settings</a></li>
+            <li><a href="{% url 'invoice_number_setting' %}" style="text-decoration: none; color: inherit;">Invoice
+                Number Settings</a></li>
+            <li><a href="{% url 'currency_setting' %}" style="text-decoration: none; color: inherit;">Currency
+                Settings</a></li>
+            <li><a href="{% url 'escalation_setting' %}" style="text-decoration: none; color: inherit;">Escalation
+                Settings</a></li>
+            <li><a href="{% url 'auto_dialer_disposition_list' %}" style="text-decoration: none; color: inherit;">Auto
+                Dialer Disposition Settings</a></li>
+            <li><a href="{% url 'sales_types' %}" style="text-decoration: none; color: inherit;">Sales Type</a></li>
+            <li><a href="{% url 'upload_docs_on_deal_won' %}" style="text-decoration: none; color: inherit;">Upload Doc
+                on Deal Won</a></li>
+            <li><a href="{% url 'meeting_geo_redius' %}" style="text-decoration: none; color: inherit;">Meetings
+                Geo-Radius</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('vender_po_settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Vendor PO Settings ▼
+          <ul class="submenu1" id="vender_po_settings">
+            <li> <a href="{% url 'po_setting' %}" style="text-decoration: none; color: inherit;">PO Settings</a></li>
+            <li> <a href="{% url 'po_number_setting' %}" style="text-decoration: none; color: inherit;">PO Number
+                Settings</a></li>
+          </ul>
+        </li>
+
+        <li onclick="togglesubmenu1('purchase_settings', event)">
+          <i class="fa-solid fa-user-plus"></i> Purchase Settings ▼
+          <ul class="submenu1" id="purchase_settings">
+            <li> <a href="{% url 'category_type' %}" style="text-decoration: none; color: inherit;">Category/Type</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <script>
+    function togglesubmenu1(submenu1Id, event) {
+      event.stopPropagation();
+      let submenu1 = document.getElementById(submenu1Id);
+
+      // Close all other submenu1s
+      document.querySelectorAll(".submenu1").forEach(item => {
+        if (item !== submenu1) {
+          item.style.display = "none";
+        }
+      });
+
+      // Toggle the clicked submenu1
+      submenu1.style.display = (submenu1.style.display === "block") ? "none" : "block";
+    }
+
+    // Hide all submenu1s when clicking outside
+    document.addEventListener("click", function () {
+      document.querySelectorAll(".submenu1").forEach(item => {
+        item.style.display = "none";
+      });
+    });
+
+    // Prevent submenu1 from closing when clicking inside
+    document.querySelectorAll(".submenu1").forEach(item => {
+      item.addEventListener("click", function (event) {
+        event.stopPropagation();
+      });
+    });
+
+    function togglesubmenu1(id, event) {
+      event.stopPropagation(); // Prevents parent menu closing
+      var submenu = document.getElementById(id);
+      if (submenu.style.display === "none" || submenu.style.display === "") {
+        submenu.style.display = "block";
+      } else {
+        submenu.style.display = "none";
+      }
+    }
+
+  </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        /* Main Content (Email Settings) */
+        .email-settings {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: flex;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .actions button {
+            margin-right: 5px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .add-btn {
+            margin: 10px 0;
+            padding: 8px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            align-items: right;
+        }
+
+        .form-container {
+            display: none;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+        }
+
+        .form-container input,
+        .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .form-container button {
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .close-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+
+    <div class="container">
+
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+
+        <!-- Email Settings -->
+        <div class="email-settings" style="height: auto;">
+
+            <h2 style="margin-bottom:20px;">📜 Terms & Conditions</h2>
+
+            <h3>T&C for Domestic Leads</h3>
+            <button class="add-btn" onclick="showForm('domestic')">+ Add New T&C for Domestic Leads</button>
+            <div id="domestic-form" class="form-container">
+                <h4>Add New T&C for Domestic Leads:</h4>
+                <label>Name:</label>
+                <input type="text" id="domestic-name">
+                <label>Value:</label>
+                <textarea id="domestic-value"></textarea>
+
+                <button class="save-btn" onclick="saveTerm('domestic')">Save</button>
+                <button class="close-btn" onclick="hideForm('domestic')">Close</button>
+            </div>
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+                {% for term in domestic_terms %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ term.name }}</td>
+                    <td>{{ term.value }}</td>
+                    <td>{{ term.description }}</td>
+                    <td class="actions">
+                        <button
+                            onclick="editTerm('{{ term.id }}', '{{ term.name }}', '{{ term.value }}', '{{ term.description }}')">✏️</button>
+                        <button onclick="deleteTerm('{{ term.id }}')">🗑️</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No records found!</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <h3>T&C for Export Leads</h3>
+            <button class="add-btn" onclick="showForm('export')">+ Add New T&C for Export Leads</button>
+            <div id="export-form" class="form-container">
+                <h4>Add New T&C for Export Leads:</h4>
+                <label>Name:</label>
+                <input type="text" id="export-name">
+                <label>Value:</label>
+                <textarea id="export-value"></textarea>
+
+                <button class="save-btn" onclick="saveTerm('export')">Save</button>
+                <button class="close-btn" onclick="hideForm('export')">Close</button>
+            </div>
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Value</th>
+                    <th>Action</th>
+                </tr>
+                {% for term in export_terms %}
+                <tr>
+                    <td>*</td>
+                    <td>Payment</td>
+                    <td>100% advance against P.I.</td>
+                    <td class="actions">
+                        <button
+                            onclick="editTerm('{{ term.id }}', '{{ term.name }}', '{{ term.value }}', '{{ term.description }}')">✏️</button>
+                        <button onclick="deleteTerm('{{ term.id }}')">🗑️</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No records found!</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <script>
+
+        function showForm(category) {
+            document.getElementById(category + '-form').style.display = 'block';
+        }
+        function hideForm(category) {
+            document.getElementById(category + '-form').style.display = 'none';
+        }
+        function saveTerm(category) {
+            let name = document.getElementById(category + '-name').value;
+            let value = document.getElementById(category + '-value').value;
+            let description = document.getElementById(category + '-description').value;
+
+            if (name && value && description) {
+                fetch('/add-term/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ name, value, description, category })
+                }).then(response => window.location.reload());
+            }
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>

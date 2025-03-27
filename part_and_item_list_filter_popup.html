@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filters Popup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        /* Modal background */
+        .modal {
+            display: block;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 35%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        h2 {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            margin: -20px -20px 10px -20px;
+            border-radius: 8px 8px 0 0;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        .search-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .reset-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .reset-btn:hover {
+            background-color: #a71d2a;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .divider {
+            border-bottom: 1px solid #ddd;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div id="filterModal" class="modal">
+        <div class="modal-content">
+            <h2>FILTERS ITEM</h2>
+
+            <form id="filterForm" method="POST">
+                {% csrf_token %}
+
+                <!-- Active & Disabled -->
+                <div class="form-group">
+                    <label><input type="checkbox" name="active"> Active</label>
+                    <label><input type="checkbox" name="disabled"> Disabled</label>
+                    <select name="reason">
+                        <option value="">Select Reason</option>
+                        <option value="out_of_stock">Out of Stock</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Additional filters -->
+                <div class="form-group">
+                    <label><input type="checkbox" name="with_serial"> With Serial No</label>
+                    <label><input type="checkbox" name="with_gst"> With GST</label>
+                    <label><input type="checkbox" name="with_hsn"> With HSN Code</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Image filters -->
+                <div class="form-group">
+                    <label><input type="radio" name="image_filter" value="with_image"> With Image</label>
+                    <label><input type="radio" name="image_filter" value="without_image"> Without Image</label>
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Sort By -->
+                <div class="form-group">
+                    <label>Sort By:</label>
+                    <label><input type="radio" name="sort_by" value="last_modified"> Last Modified</label>
+                    <label><input type="radio" name="sort_by" value="low_to_high"> Price Low to High</label>
+                    <label><input type="radio" name="sort_by" value="high_to_low"> Price High to Low</label>
+                </div>
+
+                <!-- Buttons -->
+                <div class="buttons">
+                    <button type="submit" class="search-btn">Search</button>
+                    <button type="reset" class="reset-btn">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,1324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <!-- <link rel="stylesheet" href="{% static 'myapp/css/dashboard.css' %}" /> -->
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #efebf0;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px;
+
+    margin-right: 10px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    padding: 5px 10px;
+    background-color: #fff;
+    width: 40%;
+    position: relative;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 5px;
+    width: 100%;
+}
+
+.search-bar button {
+    background-color: #e67e22;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.icons i {
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.icons i:hover {
+    color: #e67e22;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    min-width: 150px;
+    z-index: 1000;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+}
+
+.dropdown a:hover {
+    background: #f0f0f0;
+}
+
+.show {
+    display: block;
+}
+
+.leads-dropdown {
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.profile {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.navbar1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo1 {
+    display: flex;
+    align-items: center;
+}
+
+.logo1 img {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.nav-icons1 {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-item1 i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.nav-item1:hover {
+    color: #127beb;
+}
+
+
+
+
+
+/* Dashboard */
+
+.dashboard {
+    background: white;
+    width: 92%;
+    margin-left: 5%;
+    margin-top: 20px;
+    padding: 5px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.buttons {
+    margin-bottom: 20px;
+}
+
+.buttons button, .toggle-button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.toggle-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6%;
+}
+
+.stat-item {
+    text-align: center;
+    width: 150px;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: auto;
+    color: #333;
+    position: relative;
+    border: 10px solid;
+}
+
+.red {
+    border-color: #e74c3c;
+}
+
+/* Active Lead */
+.green {
+    border-color: #2ecc71;
+}
+
+/* New Lead */
+.yellow {
+    border-color: #f1c40f;
+}
+
+/* Today's Follow-up */
+.blue {
+    border-color: #3498db;
+}
+
+/* Pending Follow-up */
+.stat-item span {
+    display: block;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.toggle-label {
+    margin: 0 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+    margin-left: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #007bff;
+    transition: 0.4s;
+    border-radius: 22px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #007bff;
+}
+
+input:checked+.slider:before {
+    transform: translateX(22px);
+}
+
+
+
+/* this month  */
+
+.dashboard-thismonth {
+    background: white;
+    width: 92%;
+    /* margin-left: 5%; */
+
+    padding: 20px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.container1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Space between boxes */
+    justify-content: space-between;
+}
+
+.card {
+    flex: 1 1 calc(33.33% - 20px);
+    /* Three boxes per row */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 992px) {
+
+    /* Responsive for smaller screens */
+    .card {
+        flex: 1 1 calc(50% - 20px);
+        /* Two per row on medium screens */
+    }
+}
+
+@media (max-width: 600px) {
+
+    /* Responsive for mobile */
+    .card {
+        flex: 1 1 100%;
+        /* One per row on small screens */
+    }
+}
+
+h2 {
+    margin: 0 0 10px;
+}
+
+.stat1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.stat1 i {
+    margin-right: 10px;
+    font-size: 22px;
+    color: #4CAF50;
+}
+
+.stat1 .down1 {
+    color: #ff5722;
+}
+
+.down1 {
+    color: red;
+}
+
+.lead-pipeline1 ul {
+    list-style: none;
+
+    padding: 0;
+}
+
+.lead-pipeline1 li {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.progress1 {
+    background: #ddd;
+    height: 5px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.bar1 {
+    height: 5px;
+    background: blue;
+    border-radius: 5px;
+}
+
+canvas {
+    width: 100% !important;
+    height: 200px !important;
+}
+
+/* PIPE LINE */
+
+.container2 {
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.container3 {
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.pipeline {
+    background: white;
+    max-height: 550px;
+    overflow: auto;
+
+    margin-top: 20px;
+    padding: 5px 20px 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+td {
+    cursor: pointer;
+    background-color: #f4f4f4;
+    font-size: 18px;
+    font-weight: bold;
+    min-width: 60px;
+    height: 60px;
+}
+
+td.box {
+    background-color: #e0f7fa;
+    border-radius: 5px;
+}
+
+.pipeline img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.pipeline i {
+    font-size: 30px;
+    color: #4CAF50;
+    margin-right: 10px;
+}
+
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+#counter {
+    font-size: 20px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+
+/* products */
+
+.products-container {
+    display: flex;
+    gap: 20px;
+}
+
+.products-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
+
+.no-data {
+    text-align: center;
+    color: #777;
+}
+
+.download-icon {
+    text-align: right;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #007bff;
+}
+
+
+
+/* Performancr */
+.performance {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.performance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.performance-table th,
+.performance-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.performance-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.performance-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.performance-table tr:hover {
+    background-color: #ddd;
+}
+
+.icon {
+    font-size: 30px;
+    color: #FFD700;
+    /* Gold color */
+}
+
+
+
+    /* Leads By Source,Lead Lost Reasons,Unfollowed Leads By Users */
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    #salesChart {
+      height: 400px !important;
+      /* Adjust as needed */
+      width: 400px !important;
+      /* Adjust as needed */
+    }
+
+    #leadChart {
+      height: 400px !important;
+      /* Adjust as needed */
+      width: 400px !important;
+      /* Adjust as needed */
+    }
+
+    #financialChart {
+      height: 400px !important;
+      /* Adjust to your preferred height */
+      width: 400px !important;
+      /* Adjust to match aspect ratio */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+
+  <!-- {# Dashboard #} -->
+  <div class="dashboard">
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <h1 style="margin: 0;">DASHBOARD</h1>
+      <div class="toggle-container" style="display: flex; align-items: center; gap: 10px;">
+        <span class="toggle-label">NUMBER</span>
+        <label class="switch">
+          <input type="checkbox" id="toggleSwitch" onclick="toggleView()" />
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">PERCENT</span>
+      </div>
+    </div>
+    <div class="buttons">
+      <button
+        style="background-color: #4CAF50; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+        ˅ User's Dashboard
+      </button>
+
+      <button
+        style="background-color:#4CAF50; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+        ˅ Manager's Dashboard
+      </button>
+
+      <button
+        style="background-color: #2196F3; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+        ˅ Pending Follow-ups
+      </button>
+    </div>
+    <p>
+      <b>Report For :</b>All Users
+    </p>
+    <div class="stats">
+      <div class="stat-item">
+        <div class="circle red" data-value="2292">2292</div>
+        <span>Active Lead</span>
+      </div>
+
+      <div class="stat-item">
+        <div class="circle green" data-value="2221">2221</div>
+        <span>New Lead</span>
+      </div>
+
+      <div class="stat-item">
+        <div class="circle yellow" data-value="0">0</div>
+        <span>Today's Follow-up</span>
+      </div>
+
+      <div class="stat-item">
+        <div class="circle blue" data-value="71">71</div>
+        <span>Pending Follow-up</span>
+      </div>
+
+      <div class="stat-item">
+        <div class="circle yellow" data-value="0">0</div>
+        <span>Upcoming Follow-up</span>
+      </div>
+
+
+      <div class="stat-item">
+        <div class="circle green" data-value="228">228</div>
+        <span>Quoted Leads</span>
+      </div>
+
+      <div class="stat-item">
+        <div class="circle red" data-value="0">0</div>
+        <span>Auto Regretted</span>
+      </div>
+    </div>
+  </div>
+
+  {# This Month #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0;">
+      <div class="container1">
+        {# This Month #}
+        <div class="card">
+          <h2>THIS MONTH</h2>
+          <select>
+            <option>Mar, 2025</option>
+          </select>
+          <div class="stat1">
+            <p>
+              <i class="fa fa-user"></i>New Leads
+            </p>
+            <h3>104</h3>
+            <span class="down1">⬇ 83.39%</span>
+          </div>
+          <div class="stat1">
+            <p>
+              <i class="fa fa-rupee"></i>Revenue
+            </p>
+            <h3>₹ 0</h3>
+            <span class="down1">⬇ 0%</span>
+          </div>
+          <div class="stat1">
+            <p>
+              <i class="fa fa-shopping-cart"></i>Sales Orders
+            </p>
+            <h3>0</h3>
+            <span class="down1">⬇ 0%</span>
+          </div>
+          <div class="stat1">
+            <p>
+              <i class="fa fa-users"></i>New Customers
+            </p>
+            <h3>0</h3>
+            <span class="down1">⬇ 0%</span>
+          </div>
+        </div>
+
+        {# LEAD PIPELINE #}
+        <div class="card" style="display: flex;flex-direction: column;width: 100%;font: 2em sans-serif;">
+          <h2>LEAD PIPELINE</h2>
+          <ul style="list-style: none; padding: 0;margin: 0px 10px 0px 10px;">
+            <li
+              style="background-color: #c0ae92; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              PENDING :<span>2065</span>
+            </li>
+            <li
+              style="background-color: #ac7874; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              NOT PICKED : <span>0</span>
+            </li>
+            <li
+              style="background-color: #ab79b4; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              PROSPECT : <span>0</span>
+            </li>
+            <li
+              style="background-color: #767ca1; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              CONTACTED : <span>0</span>
+            </li>
+            <li
+              style="background-color: #6a8380; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              VISITED : <span>1</span>
+            </li>
+            <li
+              style="background-color: #729473; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              QUOTED : <span>228</span>
+            </li>
+            <li
+              style="background-color: #7e7491; padding: 1px; margin-bottom: 5px; display: flex; justify-content: center;border-radius: 10px;">
+              NEGOTIATION : <span>0</span>
+            </li>
+          </ul>
+        </div>
+
+        {# OPPORTUNITY #}
+        <div class="card"
+          style="background: linear-gradient(135deg, #1e3c72, #2a5298);padding: 20px;text-align: center;">
+          <h2 style="margin-bottom: 15px; font-size: 32px; font-weight: bold; letter-spacing: 1px;">OPPORTUNITY</h2>
+
+          <p style="font-size: 18px; margin-bottom: 10px;">
+            Open Opportunity <strong style="font-size: 22px; color: #ffd700;">₹ 209,205,231</strong>
+          </p>
+          <div class="progress1"
+            style="background: rgba(255, 255, 255, 0.2); border-radius: 10px; height: 10px; overflow: hidden; margin-bottom: 25px;">
+            <div class="bar1" style="width: 11%; height: 100%; background: #ffd700; border-radius: 10px;"></div>
+          </div>
+
+          <p style="font-size: 18px; margin-bottom: 10px;">
+            Opportunity to Business Conversion <strong style="font-size: 22px; color: #4caf50;">₹ 6,195</strong>
+          </p>
+          <div class="progress1"
+            style="background: rgba(255, 255, 255, 0.2); border-radius: 10px; height: 10px; overflow: hidden; margin-bottom: 25px;">
+            <div class="bar1" style="width: 0%; height: 100%; background: #4caf50; border-radius: 10px;"></div>
+          </div>
+
+          <p style="font-size: 18px; margin-bottom: 10px;">
+            Opportunity Lost <strong style="font-size: 22px; color: #ff4c4c;">₹ 56,159,244</strong>
+          </p>
+          <div class="progress1"
+            style="background: rgba(255, 255, 255, 0.2); border-radius: 10px; height: 10px; overflow: hidden;">
+            <div class="bar1" style="width: 2%; height: 100%; background: #ff4c4c; border-radius: 10px;"></div>
+          </div>
+        </div>
+
+        {# FINANCIAL REVIEW #}
+        <div class="card">
+          <canvas id="financialChart"></canvas>
+          <h3>FINANCIAL REVIEW</h3>
+        </div>
+
+        {# SALES ORDER #}
+        <div class="card">
+          <canvas id="salesChart"></canvas>
+          <h3>SALES ORDER</h3>
+        </div>
+
+        {# LEAD GENERATION #}
+        <div class="card">
+          <canvas id="leadChart"></canvas>
+          <h3>LEAD GENERATION</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Sales Pipeline #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <div class="pipeline">
+        <table id="statusTable">
+          <h3><b>Sales Pipeline</b></h3>
+          <thead>
+            <tr>
+              <th></th>
+              <th>PENDING</th>
+              <th>NOT PICKED</th>
+              <th>PROSPECT</th>
+              <th>CONTACTED</th>
+              <th>VISITED</th>
+              <th>QUOTED</th>
+              <th>NEGOTIATION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Shikha<p>Sales Engineer</p>
+              </td>
+              <td>544</td>
+              <td>0</td>
+              <td>0</td>
+              <td>345</td>
+              <td>5</td>
+              <td>55</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Komal<p>Sales Engineer</p>
+              </td>
+              <td>5</td>
+              <td>5</td>
+              <td>5</td>
+              <td>5</td>
+              <td>54</td>
+              <td>5</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Anand<p>Sales Engineer</p>
+              </td>
+              <td>5</td>
+              <td>5</td>
+              <td>4</td>
+              <td>5</td>
+              <td>245</td>
+              <td>5</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Anup<p>CEO</p>
+              </td>
+              <td>52</td>
+              <td>543</td>
+              <td>5</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Deepak<p>CEO</p>
+              </td>
+              <td>52</td>
+              <td>543</td>
+              <td>5</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {# User Activity Report #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <div class="pipeline">
+        <table id="statusTable">
+          <h3><b>User Activity Report</b></h3>
+          <h6>(Last 30 days)</h6>
+          <thead>
+            <tr>
+              <th></th>
+              <th>NEW LEADS</th>
+              <th>CALLS</th>
+              <th>MEETINGS</th>
+              <th>UPDATED</th>
+              <th>QUOTED</th>
+              <th>DEAL WON</th>
+              <th>DEAL LOST</th>
+              <th>REVENUE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Shikha<p>Sales Engineer</p>
+              </td>
+              <td>544</td>
+              <td>0</td>
+              <td>0</td>
+              <td>345</td>
+              <td>5</td>
+              <td>55</td>
+              <td>5</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Komal<p>Sales Engineer</p>
+              </td>
+              <td>5</td>
+              <td>5</td>
+              <td>5</td>
+              <td>5</td>
+              <td>54</td>
+              <td>5</td>
+              <td>5</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Anand<p>Sales Engineer</p>
+              </td>
+              <td>5</td>
+              <td>5</td>
+              <td>4</td>
+              <td>5</td>
+              <td>245</td>
+              <td>5</td>
+              <td>5</td>
+              <td>5</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Anup<p>CEO</p>
+              </td>
+              <td>52</td>
+              <td>543</td>
+              <td>5</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+            </tr>
+            <tr>
+              <td>
+                <i class="fas fa-user-circle"></i>Deepak<p>CEO</p>
+              </td>
+              <td>52</td>
+              <td>543</td>
+              <td>5</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+              <td>54</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {# Daily Sales Report #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <table id="statusTable">
+        <h3><b>DAILY SEARCH REPORT</b></h3>
+        <h6>(Last 30 days)</h6>
+
+        <thead>
+          <tr>
+            <th></th>
+            <th>NEW LEADS</th>
+            <th>CALLS</th>
+            <th>MEETINGS</th>
+            <th>UPDATED</th>
+            <th>QUOTED</th>
+            <th>DEAL WON</th>
+            <th>DEAL LOST</th>
+            <th>REVENUE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <h6>06-Mar-2025</h6>
+            </td>
+            <td>544</td>
+            <td>0</td>
+            <td>0</td>
+            <td>345</td>
+            <td>5</td>
+            <td>55</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {# LEADS BY SOURCE REPORT #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <table id="statusTable">
+        <h3><b>LEADS BY SOURCE REPORT</b></h3>
+        <h6>(All Time)</h6>
+
+        <thead>
+          <tr>
+            <th></th>
+            <th>NEW LEADS</th>
+            <th>CALLS</th>
+            <th>MEETINGS</th>
+            <th>UPDATED</th>
+            <th>QUOTED</th>
+            <th>DEAL WON</th>
+            <th>DEAL LOST</th>
+            <th>REVENUE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <i class="fas fa-user-circle"></i>Shikha
+            </td>
+
+            <td>544</td>
+            <td>0</td>
+            <td>0</td>
+            <td>345</td>
+            <td>5</td>
+            <td>55</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+
+          <tr>
+            <td>
+              <i class="fas fa-user-circle"></i>Shikha<p>Sales Engineer</p>
+            </td>
+            <td>544</td>
+            <td>0</td>
+            <td>0</td>
+            <td>345</td>
+            <td>5</td>
+            <td>55</td>
+            <td>5</td>
+            <td>5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {# TOP 5 SELLING PRODUCTS #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="products-box">
+            <h3>TOP 5 SELLING PRODUCTS <span style="font-size: 12px; color: #777;">(ALL TIME)</span></h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>No. Of PO</th>
+                  <th>INR</th>
+                  <th>USD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="3" class="no-data">No record found!</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="download-icon">
+              <i class="fa fa-download"></i>
+            </div>
+          </div>
+        </div>
+
+        {# LATEST 5 SALES ORDERS #}
+        <div class="col-md-6">
+          <div class="products-box">
+            <h3>LATEST 5 SALES ORDERS</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Po Date</th>
+                  <th>Assigned To</th>
+                  <th>Revenue</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>27-Nov-2024</td>
+                  <td>Anand</td>
+                  <td>INR 295</td>
+                </tr>
+                <tr>
+                  <td>14-Oct-2024</td>
+                  <td>Anand</td>
+                  <td>INR 2,950</td>
+                </tr>
+                <tr>
+                  <td>11-Oct-2024</td>
+                  <td>Anand</td>
+                  <td>INR 2,950</td>
+                </tr>
+                <tr>
+                  <td>Maha Automations</td>
+                  <td>Anand</td>
+                  <td>INR 1,345,200</td>
+                </tr>
+                <tr>
+                  <td>CARECHEM CORPORATION</td>
+                  <td>Shikha</td>
+                  <td>INR 76,700</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="download-icon">
+              <i class="fa fa-download"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# LEADS BY SOURCE #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <div class="row" style="width: 100%; height: 460px;">
+        <div class="col-md-2" style="width: 33.33%; height: 100%;">
+          <div class="chart-products" style="height: 80%;">
+            <h3>LEADS BY SOURCE</h3>
+            <canvas id="leadsBySource" style="height: 80%;"></canvas>
+          </div>
+        </div>
+
+        {# LEAD LOST REASONS #}
+        <div class="col-md-4" style="width: 33.33%; height: 100%;">
+          <div class="chart-products" style="height: 80%;">
+            <h3>LEAD LOST REASONS</h3>
+            <canvas id="leadLostReasons" style=" height: 80%;"></canvas>
+          </div>
+        </div>
+
+        {# UNFOLLOWED LEADS BY USERS #}
+        <div class="col-md-4" style="width: 33.33%; height: 100%;">
+          <div class="chart-products" style="height: 80%;">
+            <h3>UNFOLLOWED LEADS BY USERS</h3>
+            <canvas id="unfollowedLeads" style="height: 80%;"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Top Performance of the Month #}
+  <div class="container1 mt-4">
+    <div class="dashboard" style="background-color: #efebf0">
+      <h1>Top Performance of the Month</h1>
+      <table class="performance-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Performance</th>
+            <th>Icon</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>98%</td>
+            <td>
+              <i class="fas fa-trophy icon"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jane Smith</td>
+            <td>95%</td>
+            <td>
+              <i class="fas fa-medal icon"></i>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Alex Johnson</td>
+            <td>92%</td>
+            <td>
+              <i class="fas fa-star icon"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="{% static 'myapp/js/dashboard.js' %}" defer></script>
+  <script>
+    // Leads By Source,Lead Lost Reasons,Unfollowed Leads By Users
+
+    const leadsBySourceCtx = document.getElementById('leadsBySource').getContext('2d')
+    new Chart(leadsBySourceCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Call Enquiry', 'Email Enquiry', 'Indiamart', 'WhatsApp', 'Indiamart Buylead', 'Indiamart Call Enquiry'],
+        datasets: [
+          {
+            data: [5, 7, 40, 15, 20, 13],
+            backgroundColor: ['#2C3E50', '#34495E', '#1ABC9C', '#E67E22', '#5D6D7E', '#BB8FCE']
+          }
+        ]
+      }
+    })
+
+    const leadLostReasonsCtx = document.getElementById('leadLostReasons').getContext('2d')
+    new Chart(leadLostReasonsCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Client is not responding', 'Duplicate Leads', 'Junk Enquiry', 'Quoted price is high', 'Low/ Retail Quantity', 'Invalid Contact Number', 'Client dropped his purchase requirement', 'Irrelevant Product Enquiry', 'Payment term is out of scope', 'Purchased from local vendor'],
+        datasets: [
+          {
+            data: [15, 5, 3, 7, 6, 4, 20, 10, 8, 12],
+            backgroundColor: ['#3498DB', '#9B59B6', '#1ABC9C', '#E74C3C', '#F1C40F', '#8E44AD', '#2ECC71', '#E67E22', '#D35400', '#7F8C8D']
+          }
+        ]
+      }
+    })
+
+    const unfollowedLeadsCtx = document.getElementById('unfollowedLeads').getContext('2d')
+    new Chart(unfollowedLeadsCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Anand', 'Komal'],
+        datasets: [
+          {
+            data: [25, 75],
+            backgroundColor: ['#3498DB', '#5D6D7E']
+          }
+        ]
+      }
+    })
+  </script>
+</body>
+
+</html>

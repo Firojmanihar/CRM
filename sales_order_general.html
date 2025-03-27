@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Order General Setting</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+    .container {
+      display: flex;
+      max-width: 1800px;
+      margin-top: 20px;
+      margin-left: 70px;
+
+    }
+
+    h2 {
+      display: flex;
+      align-items: center;
+
+    }
+
+    h2::before {
+      content: "📋";
+      margin-right: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      margin-left: 5px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      width: 400px;
+      /* Change width here */
+      height: 250px;
+      /* Change height here */
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .success-icon {
+      font-size: 100px;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+
+
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+  <div class="container">
+
+    <div>
+      {% include "myapp/general_sidebar.html" %}
+    </div>
+
+
+
+
+
+    <!-- Email Settings -->
+    <div class="email-settings" style="height: auto;">
+      <h2 style=" margin-bottom:20px;">Sales Order Setting</h2>
+      <form id="salesOrderForm">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="checkbox" id="hide_price" />
+          <label for="hide_price">Hide Price Details</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="hide_customer" />
+          <label for="hide_customer">Hide Customer Details</label>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="hide_payment" />
+          <label for="hide_payment">Hide Payment Terms</label>
+        </div>
+        <button type="submit">Save</button>
+      </form>
+    </div>
+
+    <div class="popup" id="successPopup">
+      <i class="fa fa-check-circle success-icon"></i>
+      <h3 style="margin-bottom: 10px;">Success</h3>
+      <p>The changes were saved successfully.</p>
+      <button onclick="closePopup()">OK</button>
+    </div>
+
+  </div>
+
+  <script>
+
+    document.getElementById("salesOrderForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent form submission
+      document.getElementById("successPopup").style.display = "block"; // Show popup
+    });
+
+    // Function to close the popup
+    function closePopup() {
+      document.getElementById("successPopup").style.display = "none";
+    }
+
+
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Dialer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 120px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .pending {
+            color: blue;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            /* Moves everything to the right */
+            width: 100%;
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .search-container label {
+            font-weight: bold;
+        }
+
+        .search-container input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+
+
+        .filters {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 10px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn.go {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn.reset {
+            background-color: #ddd;
+            color: black;
+        }
+
+        input[list] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div class="search-container">
+        <h1>Auto Dialer</h1>
+        <h4 style="margin-right:10px;margin-left: 49%; ">Filter By </h4>
+        <div>
+
+            <select>
+                <option>Mar,2025</option>
+                <option>Feb,2025</option>
+                <option>Jan,2025</option>
+                <option>Dec,2024</option>
+                <option>Nov,2024</option>
+                <option>Oct,2024</option>
+                <option>Sep,2024</option>
+                <option>Aug,2024</option>
+                <option>Jul,2024</option>
+                <option>Jun,2024</option>
+                <option>May,2024</option>
+                <option>Apr,2024</option>
+                <option>Mar,2024</option>
+                <option>Feb,2024</option>
+                <option>Jan,2024</option>
+                <option>Dec,2023</option>
+                <option>Nov,2023</option>
+                <option>Oct,2023</option>
+                <option>Sep,2023</option>
+                <option>Aug,2023</option>
+                <option>Jul,2023</option>
+            </select>
+
+        </div>
+
+
+
+        <div class="filters">
+            <a href="{% url 'add_auto_compaign_popup' %}"><button class="btn go" style="height: 40px;">Add Auto Assign
+                    Campaign</button></a>
+            <a href="{% url 'add_Manual_Campaign_popup' %}"><button class="btn go"
+                    style="margin-right: 120px;height: 40px;">Add Manual Assign Campaign</button></a>
+
+
+
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Campaign</th>
+                <th>Created By</th>
+                <th>Total Contacts</th>
+                <th>Assign Contacts</th>
+                <th>Total Pending</th>
+                <th>Total Disposed</th>
+                <th>Created leads</th>
+                <th>Mode</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="poTable">
+
+
+            <button class="btn"><i class="fa fa-eye"></i></button>
+            <button class="btn"><i class="fa fa-edit"></i></button>
+
+            </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <br>
+    <!-- <button class="download-btn" onclick="downloadReport()" style="width: 110px;margin-left: 120px;">Download Report</button> -->
+    <p style="margin-left: 120px;">No records found!</p>
+    <script>
+        function filterTable() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let table = document.getElementById("poTable");
+            let rows = table.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName("td");
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().includes(input)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? "" : "none";
+            }
+        }
+
+        function downloadReport() {
+            let table = document.getElementById("poTable");
+            let rows = table.getElementsByTagName("tr");
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Order ID,PO Date,Company,Payment Terms,PO Amount,Payment Recd,Bal. Payment,Status,Stage,Sales Type,Invoice No.\n";
+
+            for (let row of rows) {
+                let cells = row.getElementsByTagName("td");
+                let rowData = [];
+                for (let cell of cells) {
+                    rowData.push(cell.innerText);
+                }
+                csvContent += rowData.join(",") + "\n";
+            }
+
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "po_register.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+    </script>
+
+</body>
+
+</html>

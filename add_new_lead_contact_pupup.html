@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Contact Person</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+
+        input,
+        select {
+            width: 90%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .row div {
+            flex: 1;
+        }
+
+        .save-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 15%;
+            margin-left: 42%;
+        }
+
+        .save-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Edit Contact Person</h2>
+        <form method="POST" action="#">
+            {% csrf_token %}
+            <div class="row">
+                <div>
+                    <label>Contact Person</label>
+                    <input type="text" name="contact_person" required>
+                </div>
+                <br>
+                <div>
+                    <label>Designation</label>
+                    <input type="text" name="designation" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div>
+                    <label>Mobile</label>
+                    <input type="text" name="mobile" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Alt. Email</label>
+                    <input type="email" name="alt_email">
+                </div>
+                <div>
+                    <label>Alt. Mobile</label>
+                    <input type="text" name="alt_mobile">
+                </div>
+            </div>
+
+            <textarea style="width: 97%; height: 90%;">Address</textarea><br>
+
+            <div class="row" style="margin-top: 1%;">
+                <div>
+                    <label>GST Number</label>
+                    <input type="text" name="gst_number">
+                </div>
+                <div>
+                    <label>PIN/ ZIP Code</label>
+                    <input type="text" name="zip">
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Country</label>
+                    <input type="text" name="country">
+                </div>
+                <div>
+                    <label>State</label>
+                    <input type="text" name="state">
+                </div>
+                <div>
+                    <label>City</label>
+                    <input type="text" name="city">
+                </div>
+            </div>
+
+            <div class="row">
+                <div>
+                    <label>Date of Birth</label>
+                    <input type="date" name="dob">
+                </div>
+                <div>
+                    <label>Marriage Anniversary</label>
+                    <input type="date" name="anniversary">
+                </div>
+            </div>
+
+            <button type="submit" class="save-btn">Save</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

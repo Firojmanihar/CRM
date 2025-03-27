@@ -1,0 +1,269 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        /* Main Content (Email Settings) */
+        .email-settings {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: 608px;
+        }
+
+        .sms-settings {
+            border: 1px solid #ddd;
+            padding: 20px;
+            width: 100%;
+            height: 570px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .sms-settings h2 {
+            display: flex;
+            align-items: center;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .sms-settings h2::before {
+            content: "💬";
+            margin-right: 8px;
+        }
+
+        .not-active {
+            color: red;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        .note {
+            color: green;
+            font-size: 14px;
+        }
+
+
+        h2 {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .no-record {
+            text-align: center;
+            font-style: italic;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+        <!-- Email Settings -->
+        <div class="email-settings" style="height: auto;">
+            <h2>📍 Lead Region Setting</h2>
+
+            <div class="form-group">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <h4 for="region" style="margin: 0;">Add New Region:</h4>
+                    <input type="text" id="region" placeholder="Enter region name">
+                </div>
+                <button class="btn" onclick="addRegion()">Add</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Tag With</th>
+                        <th>Tagged Values</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="regionList">
+                    <tr class="no-record">
+                        <td colspan="4">No Record Found!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        function addRegion() {
+            const regionInput = document.getElementById('region');
+            const regionName = regionInput.value.trim();
+            const tableBody = document.getElementById('regionList');
+
+            if (regionName !== "") {
+                // Remove "No Record Found" if it exists
+                const noRecord = document.querySelector('.no-record');
+                if (noRecord) {
+                    noRecord.remove();
+                }
+
+                // Create a new row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td class="region-name">${regionName}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>
+                    <i class="fas fa-edit edit-icon" onclick="editRegion(this)" style="cursor: pointer; color: #007bff; margin-right: 10px;"></i>
+                    <i class="fas fa-trash delete-icon" onclick="deleteRegion(this)" style="cursor: pointer; color: red;"></i>
+                </td>
+            `;
+                tableBody.appendChild(row);
+
+                // Clear input
+                regionInput.value = "";
+            } else {
+                alert("Please enter a region name.");
+            }
+        }
+
+        function deleteRegion(icon) {
+            icon.parentElement.parentElement.remove();
+
+            // If table is empty, show "No Record Found"
+            const tableBody = document.getElementById('regionList');
+            if (tableBody.children.length === 0) {
+                tableBody.innerHTML = '<tr class="no-record"><td colspan="4">No Record Found!</td></tr>';
+            }
+        }
+
+        function editRegion(icon) {
+            const row = icon.parentElement.parentElement;
+            const regionCell = row.querySelector(".region-name");
+            const currentName = regionCell.innerText;
+
+            // If already editing, save the new name
+            if (icon.classList.contains("fa-save")) {
+                const inputField = row.querySelector("input");
+                const newName = inputField.value.trim();
+
+                if (newName !== "") {
+                    regionCell.innerText = newName;
+                    icon.classList.remove("fa-save");
+                    icon.classList.add("fa-edit");
+                    icon.style.color = "#007bff"; // Change color back to blue
+                } else {
+                    alert("Region name cannot be empty.");
+                }
+            } else {
+                // Replace the text with an input field for editing
+                regionCell.innerHTML = `<input type="text" value="${currentName}" style="padding:5px; width:100%;">`;
+                icon.classList.remove("fa-edit");
+                icon.classList.add("fa-save");
+                icon.style.color = "green"; // Change color to indicate saving mode
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

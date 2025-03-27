@@ -1,0 +1,231 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select,
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 50px;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .extraFields {
+            display: none;
+            /* Initially hidden */
+            margin-top: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+
+
+        <!-- Email Settings -->
+        <div class="email-settings" style="height: auto;">
+            <h2 style="margin-bottom:20px;">📄 Escalation Setting</h2>
+            <p style="margin-bottom:20px;">Add New:</p>
+            <!-- Main Form -->
+            <form id="escalationForm" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="actionStatus">Action Status:</label>
+                    <select id="actionStatus" name="action_status" required>
+                        <option value="">==Select One==</option>
+                        <option value="Pending">New Lead</option>
+                        <option value="Approved">Regretted Lead</option>
+                    </select>
+                </div>
+
+                <!-- Extra Fields for Pending -->
+                <div id="pendingFields" class="extraFields">
+                    <div class="form-group">
+                        <label for="escalationPeriod">Escalation Period In Hour:</label>
+                        <select id="escalationPeriod" name="escalation_period">
+                            <option value="">==Select One==</option>
+                            <option value="1">1 Hour</option>
+                            <option value="2">2 Hours</option>
+                            <option value="3">3 Hours</option>
+                            <option value="4">4 Hours</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="assignTo">Assign To:</label>
+                        {% comment %} <input type="text" id="assignTo" name="assign_to" value="Manager" readonly> {%
+                        endcomment %}
+                        <select id="assignTo" name="assign_to">
+                            <option value="">==Select==</option>
+                            <option value="User1">Manager</option>
+                            <option value="User2">Skip Manager</option>
+                            <option value="User3">Admin</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Extra Fields for Approved -->
+                <div id="approvedFields" class="extraFields">
+                    <div class="form-group">
+                        <label for="assignToUser">Assign To User:</label>
+                        <select id="assignToUser" name="assign_to_user">
+                            <option value="">==Select==</option>
+                            <option value="User1">Deepak</option>
+                            <option value="User2">Anup</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit">Add</button>
+            </form>
+            <div class="table-container">
+                <h3>Escalation</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Status Name</th>
+                            <th>Period In Hour</th>
+                            <th>Assign To</th>
+                            <th>Regretted Assign To User</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="6" style="text-align: left;">No Record Found!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        document.getElementById('actionStatus').addEventListener('change', function () {
+            let pendingFields = document.getElementById('pendingFields');
+            let approvedFields = document.getElementById('approvedFields');
+
+            pendingFields.style.display = "none";
+            approvedFields.style.display = "none";
+
+            if (this.value === "Pending") {
+                pendingFields.style.display = "block";
+            } else if (this.value === "Approved") {
+                approvedFields.style.display = "block";
+            }
+        });
+
+        document.getElementById('escalationForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            alert("Form Submitted!");
+            this.submit(); // Submit the form after validation
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .email-container {
+            background: white;
+            width: 500px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-field,
+        .textarea {
+            width: calc(100% - 16px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .attach {
+            color: #007bff;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .send-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="email-container">
+        <div class="input-group">
+            <label>To</label>
+            <input type="email" class="input-field" id="to" value="sales@pandalark.com.au" readonly>
+        </div>
+
+        <div class="input-group">
+            <label>Cc</label>
+            <input type="email" class="input-field" id="cc">
+        </div>
+
+        <div class="input-group">
+            <label>Subject</label>
+            <input type="text" class="input-field" id="subject"
+                value="Enquiry #2549 - Query/Update from your A/C Manager">
+        </div>
+
+        <div class="input-group">
+            <label>Message</label>
+            <textarea class="textarea" id="message"></textarea>
+        </div>
+
+        <p class="attach" onclick="document.getElementById('file-input').click();">📎 Click to Attach Documents</p>
+        <input type="file" id="file-input" style="display: none;" multiple>
+        <p id="file-names"></p>
+
+        <div class="actions">
+            <button class="send-btn" onclick="sendEmail()">Send</button>
+            <div class="checkbox-group">
+                <input type="checkbox" id="attach-brochure"> Attach Company Brochure
+                <input type="checkbox" id="send-price"> Send Price List
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', function () {
+            let fileNames = Array.from(this.files).map(file => file.name).join(', ');
+            document.getElementById('file-names').innerText = fileNames;
+        });
+
+        function sendEmail() {
+            let to = document.getElementById('to').value;
+            let cc = document.getElementById('cc').value;
+            let subject = document.getElementById('subject').value;
+            let message = document.getElementById('message').value;
+            let attachBrochure = document.getElementById('attach-brochure').checked;
+            let sendPrice = document.getElementById('send-price').checked;
+
+            if (!message.trim()) {
+                alert("Message cannot be empty");
+                return;
+            }
+
+            alert(`Email Sent!\nTo: ${to}\nCC: ${cc}\nSubject: ${subject}\nMessage: ${message}\nAttach Brochure: ${attachBrochure}\nSend Price List: ${sendPrice}`);
+        }
+    </script>
+</body>
+
+</html>

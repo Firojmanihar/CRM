@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+
+        .container {
+            background: white;
+
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 95%;
+            margin-top: 40px;
+            overflow-x: auto;
+            margin-left: 120px;
+
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+            /* Ensures scrollability */
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            cursor: pointer;
+        }
+
+        .action-icons i {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox {
+            text-align: center;
+        }
+
+        /* Scrollable container for the table */
+        .table-container {
+            width: 100%;
+            max-height: 600px;
+            /* Set a fixed height for scrolling */
+            overflow: auto;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        /* Always show horizontal scrollbar at the bottom */
+        .table-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+
+<body style="padding: 0px;">
+
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div style="
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 120px;
+    margin-right: 60px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;">
+
+        <h3 style="margin: 0;"><b>Manage Companies</b></h3>
+
+        <div style="display: flex; gap: 10px;">
+            <a href="{% url 'product_list_filters_popup' %}"><button onclick="showFilters()"
+                    style="background: #00aff0; color: white; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer;"><i
+                        class="fas fa-filter"></i> Filters</button></a>
+            <a href="{% url 'add_new_companies' %}"><button onclick="window.location.href='/add-company/'"
+                    style="background: #00aff0; color: white; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer;"><i
+                        class="fas fa-building"></i> Add Companies</button></a>
+            <a href="{% url 'bulk_upload' %}"><button onclick="document.getElementById('uploadInput').click()"
+                    style="background: #00aff0; color: white; border: none; padding: 8px 14px; border-radius: 20px; cursor: pointer;"><i
+                        class="fas fa-upload"></i> Bulk Uploads</button></a>
+            <input type="file" id="uploadInput" style="display: none;">
+        </div>
+    </div>
+
+
+
+    <h3 style="margin-left: 180px;"><b>COMPANIES LIST</b></h3>
+    <div class="container" style="margin-top: 20px;">
+
+        <!-- Scrollable container for the table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="checkbox"><input type="checkbox"></th>
+                        <th>#ID</th>
+                        <th>Company Name</th>
+                        <th>Contact Person</th>
+                        <th>Designation</th>
+                        <th>Assigned to</th>
+                        <th>Leads</th>
+                        <th>Orders</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                        <th>State</th>
+                        <th>City</th>
+                        <th>Zip</th>
+                        <th>GST</th>
+                        <th>Created On</th>
+                        <th>Last Contacted On</th>
+                        <th>Reference</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="companyData">
+                    <!-- Sample Data for 20 Entries -->
+                    <script>
+                        for (let i = 2087; i < 2107; i++) {
+                            let displayClass = (i < 2097) ? "" : "extra-data"; // Show first 10, hide others
+                            document.write(`
+            <tr class="data-row ${displayClass}">
+                <td class="checkbox"><input type="checkbox"></td>
+                <td>${i}</td>
+                <td><a href="#"?id=${i}">Company ${i}</a></td>
+                <td>
+                    <a href="#"?id=${i}">Person ${i}</a>
+                    <br><small>(<a href="{% url 'companies_leads_plus_popup' %}"?id=${i}" style="color:blue;">Add Contact</a>)</small>
+                </td>
+                <td>Manager</td>
+                <td>Assigned ${i}<br><small>(Change)</small></td>
+                <td>
+                    <a href="{% url 'leads_plus_one_popup' %}?id=${i}">1 <i class="fas fa-plus-circle"></i></a>
+                </td>
+                <td>0</td>
+                <td>email${i}@gmail.com</td>
+                <td>98765432${i % 10}</td>
+                <td>Address ${i}, Maharashtra</td>
+                <td>India</td>
+                <td>Maharashtra</td>
+                <td>City ${i}</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>13-Mar-2025</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td class="action-icons">
+                    <a href="{% url 'company_details_popup' %}?id=${i}"><i class="fas fa-search"></i></a>
+                    <a href="{% url 'manage_document_popup' %}?id=${i}"><i class="fas fa-file"></i></a>
+                    <a href="{% url 'company_email_popup' %}?id=${i}"><i class="fas fa-envelope"></i></a>
+                    <a href="{% url 'company_history_popup' %}?id=${i}"><i class="fas fa-sync-alt"></i></a>
+                    <a href="{% url 'edit_details_popup' %}?id=${i}"><i class="fas fa-edit"></i></a>
+                    <a href="{% url 'blacklist_popup' %}?id=${i}"><i class="fas fa-check-circle"></i></a>
+                    <a href="{% url 'non_priority_company_popup' %}?id=${i}"><i class="fas fa-user"></i></a>
+                </td>
+            </tr>
+        `);
+                        }
+
+                        function showFilters() {
+                            let filterSection = document.getElementById("filterSection");
+                            filterSection.style.display = (filterSection.style.display === "none") ? "block" : "none";
+                        }
+                    </script>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket History Popup</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Popup (Modal) Styling */
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 60%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        /* Close Icon */
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 20px;
+            color: red;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Ticket Form Styling */
+        .ticket-form {
+            display: none;
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        .ticket-form select,
+        .ticket-form input {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal (Popup Window) -->
+    <div id="ticketModal" class="modal">
+        <div class="modal-content">
+            <span class="close-icon" onclick="closeModal()">✖</span>
+            <h2>Ticket History</h2>
+
+            <!-- Add Ticket Button -->
+            <button class="add-ticket" onclick="showTicketForm()">ADD TICKET</button>
+
+            <!-- Table -->
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Ticket Type</th>
+                    <th>Description</th>
+                    <th>Assigned To</th>
+                    <th>Stage</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>655</td>
+                    <td>15-Mar-2025</td>
+                    <td>Others</td>
+                    <td>No</td>
+                    <td>Bhawna Arora</td>
+                    <td>Ticket Received</td>
+                    <td>Open</td>
+                    <td><img src="open-icon.png" alt="Open" width="30"></td>
+                </tr>
+            </table>
+
+            <!-- Ticket Form (Hidden by Default) -->
+            <div id="ticketForm" class="ticket-form">
+                <h3>Add New Ticket</h3>
+
+                <!-- Ticket Type Dropdown -->
+                <label for="ticketType">Ticket Type:</label>
+                <select id="ticketType">
+                    <option value="" disabled selected>Select Ticket Type</option>
+                    <option value="Need Training">Need Training</option>
+                    <option value="Login Related Issue">Login Related Issue</option>
+                    <option value="Quotation Relatable Issue">Quotation Relatable Issue</option>
+                    <option value="Email Not Working">Email Not Working</option>
+                    <option value="Leads Related Issue">Leads Related Issue</option>
+                    <option value="Product Management Issue">Product Management Issue</option>
+                    <option value="Need Tax Invoice">Need Tax Invoice</option>
+                    <option value="Need New User Licence">Need New User Licence</option>
+                    <option value="Others">Others</option>
+                </select>
+
+                <!-- Description Input -->
+                <label for="description">Description:</label>
+                <input type="text" id="description" placeholder="Enter Description">
+
+                <!-- Save Button -->
+                <button class="save-ticket" onclick="saveTicket()">Save Ticket</button>
+            </div>
+
+            <!-- Close Button -->
+            <button class="close-btn" onclick="closeModal()" style="margin-left: 90%;margin-top: 5%;">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Close Modal
+        function closeModal() {
+            document.getElementById("ticketModal").style.display = "none";
+        }
+
+        // Show Ticket Form
+        function showTicketForm() {
+            document.getElementById("ticketForm").style.display = "block";
+        }
+
+        // Save Ticket (Simulated)
+        function saveTicket() {
+            let ticketType = document.getElementById("ticketType").value;
+            let description = document.getElementById("description").value;
+
+            if (ticketType && description) {
+                alert("Ticket Added: " + ticketType + " - " + description);
+                document.getElementById("ticketForm").style.display = "none"; // Hide form
+                document.getElementById("ticketType").value = "";
+                document.getElementById("description").value = "";
+            } else {
+                alert("Please select a ticket type and enter a description.");
+            }
+        }
+    </script>
+</body>
+
+</html>

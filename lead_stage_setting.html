@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        /* Main Content (Email Settings) */
+        .email-settings {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: 608px;
+        }
+
+        h2 {
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input,
+        select {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .lead-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .lead-table th,
+        .lead-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .lead-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .stage-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f0f2f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .stage-name {
+            font-weight: bold;
+        }
+
+        .default-label {
+            font-size: 12px;
+            color: gray;
+        }
+
+        .icon-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .icon-btn {
+            background: gray;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #a82332;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div class="container">
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+        <!-- Email Settings -->
+        <div class="email-settings" style="height: auto;">
+
+            <h2 style="margin-bottom:20px;">⚙️ Lead Stage List</h2>
+            <p style="margin-bottom:10px;"><b>Form Name:</b></p>
+            <div class="form-group">
+                <input type="text" id="stageName" placeholder="Enter Stage Name">
+                <select id="stagePosition">
+                    <option value="">-- Select Position --</option>
+                    <option value="Middle">After</option>
+                    <option value="Bottom">Before</option>
+                </select>
+                <select id="stageStage">
+                    <option value="">-- Select Stage --</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Not Picked">Not Picked</option>
+                    <option value="Prospect">Prospect</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Visited">Visited</option>
+                    <option value="Quoted">Quoted</option>
+                    <option value="Negotiation">Negotiation</option>
+                    <option value="Deal Won">Deal Won</option>
+                </select>
+                <button class="btn" onclick="addStage()">Add</button>
+            </div>
+
+            <div id="stageList">
+                <p id="noRecordMsg" class="default-label">No record found!</p>
+            </div>
+        </div>
+    </div>
+    <script>
+
+
+        function addStage() {
+            let stageName = document.getElementById("stageName").value.trim();
+            let stagePosition = document.getElementById("stagePosition").value;
+            let stageStage = document.getElementById("stageStage").value;
+
+            if (stageName === "" || stagePosition === "" || stageStage === "") {
+                alert("Please fill all fields.");
+                return;
+            }
+
+            let stageList = document.getElementById("stageList");
+            let noRecordMsg = document.getElementById("noRecordMsg");
+
+            // Remove "No record found!" message
+            if (noRecordMsg) {
+                noRecordMsg.remove();
+            }
+
+            let stageItem = document.createElement("div");
+            stageItem.classList.add("stage-item");
+
+            stageItem.innerHTML = `
+            <span class="stage-name">${stageName}</span>
+            <span class="default-label">${stageStage}</span>
+            <div class="icon-buttons">
+                <button class="icon-btn">🛠</button>
+                <button class="icon-btn">💰</button>
+                <button class="icon-btn delete-btn" onclick="deleteStage(this)">🗑</button>
+            </div>
+        `;
+
+            stageList.appendChild(stageItem);
+            document.getElementById("stageName").value = "";
+        }
+
+        function deleteStage(btn) {
+            if (confirm("Are you sure you want to delete this stage?")) {
+                btn.closest(".stage-item").remove();
+
+                let stageList = document.getElementById("stageList");
+                if (stageList.children.length === 0) {
+                    stageList.innerHTML = `<p id="noRecordMsg" class="default-label">No record found!</p>`;
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+        //sidebar
+
+        function toggleSubmenu(event, submenuId) {
+            event.stopPropagation();
+
+            let submenu = document.getElementById(submenuId);
+            let isVisible = submenu.style.display === "block";
+
+            // Close all submenus before opening the selected one
+            closeAllSubmenus();
+
+            if (!isVisible) {
+                submenu.style.display = "block";
+            }
+        }
+
+        function closeAllSubmenus(event) {
+            // If the click is inside the sidebar, do nothing
+            if (event && event.target.closest("#sidebar")) return;
+
+            document.querySelectorAll('.submenu').forEach(menu => {
+                menu.style.display = "none";
+            });
+        }
+
+        function closeAllMenus() {
+            document.querySelectorAll('.submenu').forEach(menu => {
+                menu.style.display = "none";
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Document List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 800px;
+            max-width: 90%;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .document-box {
+            border: 2px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        .save-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 40px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .table-container {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2>Manage Document List</h2>
+
+            <div class="document-box">
+                <div class="form-group">
+                    <label for="documentType">Type*</label>
+                    <select id="documentType">
+                        <option value="">== Select ==</option>
+                        <option value="1">Pan Card</option>
+                        <option value="2">Aadhar Card</option>
+                        <option value="3">Address Proof</option>
+                        <option value="4">Certificate of Incorporation</option>
+                        <option value="5">Certificate of Trading</option>
+                        <option value="6">GST Certificate</option>
+                        <option value="7">Income Tax Return Certificate</option>
+                        <option value="8">Non-Disclosure Agreement</option>
+                        <option value="9">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="documentFile">Document*</label>
+                    <input type="file" id="documentFile">
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="saveDocument()">Save</button>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SL No.</th>
+                            <th>Title</th>
+                            <th>File Type</th>
+                            <th>Created On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documentTableBody">
+                        <tr>
+                            <td colspan="5">No record found!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function saveDocument() {
+            const documentType = document.getElementById("documentType").value;
+            const documentFile = document.getElementById("documentFile").files[0];
+
+            if (!documentType || !documentFile) {
+                alert("Please select a document type and upload a file.");
+                return;
+            }
+
+            const tableBody = document.getElementById("documentTableBody");
+            const newRow = document.createElement("tr");
+            const rowCount = tableBody.rows.length;
+
+            newRow.innerHTML = `
+                <td>${rowCount + 1}</td>
+                <td>${documentFile.name}</td>
+                <td>${documentFile.type}</td>
+                <td>${new Date().toLocaleDateString()}</td>
+                <td><button onclick="this.parentElement.parentElement.remove()">Delete</button></td>
+            `;
+
+            if (tableBody.rows[0].cells.length === 1) {
+                tableBody.innerHTML = "";
+            }
+
+            tableBody.appendChild(newRow);
+        }
+    </script>
+</body>
+
+</html>

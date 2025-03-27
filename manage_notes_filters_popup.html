@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Note</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #008cba;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .filter-section {
+            padding: 15px;
+        }
+
+        .filter-section label {
+            display: block;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .button-group button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .search-btn {
+            background-color: #008cba;
+        }
+
+        .reset-btn {
+            background-color: #ff4d4d;
+        }
+
+        .search-btn:hover {
+            background-color: #005f73;
+        }
+
+        .reset-btn:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="header">FILTER NOTE</div>
+
+        <div class="filter-section">
+            <label for="search_note">Search Note</label>
+            <input type="text" id="search_note" placeholder="Search by Note...">
+
+            <label for="note_added_by">Note Added By</label>
+            <select id="note_added_by">
+                <option value="">--Select--</option>
+                <option value="Deepak">Deepak</option>
+                <option value="Anup">Anup</option>
+                <option value="Komal">Komal</option>
+            </select>
+
+            <label for="lead_assign_to">Lead Assign To</label>
+            <select id="lead_assign_to">
+                <option value="">--Select--</option>
+                <option value="Deepak">Deepak</option>
+                <option value="Anup">Anup</option>
+                <option value="Komal">Komal</option>
+            </select>
+
+            <label for="note_date_from">Note Date From</label>
+            <input type="date" id="note_date_from">
+
+            <label for="note_date_to">Note Date To</label>
+            <input type="date" id="note_date_to">
+
+            <div class="button-group">
+                <button class="search-btn" onclick="searchNotes()">Search</button>
+                <button class="reset-btn" onclick="resetFilters()">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchNotes() {
+            let searchNote = document.getElementById("search_note").value;
+            let noteAddedBy = document.getElementById("note_added_by").value;
+            let leadAssignTo = document.getElementById("lead_assign_to").value;
+            let noteDateFrom = document.getElementById("note_date_from").value;
+            let noteDateTo = document.getElementById("note_date_to").value;
+
+            alert("Searching notes with filters:\n" +
+                "Search Note: " + searchNote + "\n" +
+                "Note Added By: " + noteAddedBy + "\n" +
+                "Lead Assign To: " + leadAssignTo + "\n" +
+                "Note Date From: " + noteDateFrom + "\n" +
+                "Note Date To: " + noteDateTo);
+        }
+
+        function resetFilters() {
+            document.getElementById("search_note").value = "";
+            document.getElementById("note_added_by").value = "";
+            document.getElementById("lead_assign_to").value = "";
+            document.getElementById("note_date_from").value = "";
+            document.getElementById("note_date_to").value = "";
+        }
+    </script>
+
+</body>
+
+</html>

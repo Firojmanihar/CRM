@@ -1,0 +1,420 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Header</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #efebf0;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            padding: 5px 10px;
+            background-color: #fff;
+            width: 50%;
+            position: relative;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            padding: 5px;
+            width: 100%;
+        }
+
+        .search-box button {
+            background-color: #e67e22;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .icon-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .icon-container i {
+            font-size: 28px;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .icon-container i:hover {
+            color: #e67e22;
+        }
+
+        /* Tooltip styling */
+        .icon-item {
+            position: relative;
+        }
+
+        .icon-item .tooltip {
+            display: none;
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        .icon-item:hover .tooltip {
+            display: block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            min-width: 150px;
+            z-index: 1000;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            text-decoration: none;
+            color: black;
+            padding: 5px;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f0f0f0;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .leads-menu {
+            cursor: pointer;
+            padding: 5px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .user-profile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-logo-small {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo-small img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .nav-icons-small {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-item-small {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 14px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .nav-item-small i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .nav-item-small:hover {
+            color: #127beb;
+        }
+
+        /* Media Queries for responsiveness */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .icon-container {
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-icons-small {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .nav-item-small {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-logo img {
+                height: 30px;
+            }
+
+            .nav-container {
+                padding: 10px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .icon-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .nav-item-small i {
+                font-size: 20px;
+            }
+        }
+
+        @keyframes glow1 {
+            0% {
+                text-shadow: 0 0 5px #020202, 0 0 10px #019dda, 0 0 05px #00b7ff;
+            }
+
+            50% {
+                text-shadow: 0 0 10px #030303, 0 0 20px #019dda, 0 0 10px #00b7ff;
+            }
+
+            100% {
+                text-shadow: 0 0 5px #6e6e6e, 0 0 10px #696969, 0 0 15px #6e6e6e;
+            }
+        }
+
+        /*@keyframes glow1 {
+            0% { text-shadow: 0 0 5px #020202, 0 0 10px #019dda, 0 0 15px #00b7ff; }
+            50% { text-shadow: 0 0 10px #030303, 0 0 20px #019dda, 0 0 30px #00b7ff; }
+            100% { text-shadow: 0 0 5px #000000, 0 0 10px #019dda, 0 0 15px #04b8ff; }
+        }*/
+
+        .glow {
+            color: #67db8c;
+            animation: glow1 1.5s infinite alternate;
+            text-align: center;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 40px;
+            margin-top: 1px;
+            margin-right: 60px;
+            margin-bottom: 1px;
+            margin-left: 30px
+        }
+    </style>
+
+<body>
+    {# Header Start #}
+    <div>
+        <div class="nav-container">
+            <a class="navbar-brand text-light" href="{% url 'dashboard' %}">
+                <p class="glow">Sihauli</p>
+            </a>
+
+
+            <div class="search-box">
+                <div class="leads-menu" id="leads-dropdown">
+                    Leads<div id="leads-options" class="dropdown-menu">
+                        <a href="#">Leads</a>
+                        <a href="#">Companies</a>
+                        <a href="#">Users</a>
+                        <a href="#">Products</a>
+                    </div>
+                </div>
+                <input type="text" placeholder="Search for Leads/Lead ID" />
+                <button>🔍</button>
+            </div>
+            <div class="icon-container">
+                <div class="icon-item" style="margin-left: 40%;">
+                    <a href="{% url 'auto_dialor' %}"><i class="fas fa-user-circle" style="color: #48b4f3"></i><span
+                            class="tooltip">User Profile</span></a>
+                </div>
+                <div class="icon-item">
+                    <a href="{% url 'whatsapp_bulk_marketing' %}"><i class="fas fa-chart-line"
+                            style="color: #f176d7"></i><span class="tooltip">Marketing Analytics</span></a>
+                </div>
+                <div class="icon-item">
+                    <a href="{% url 'notification' %}"><i class="fas fa-cloud" style="color: #23d5ec"></i><span
+                            class="tooltip">Cloud Notifications</span></a>
+                </div>
+                <div class="icon-item">
+                    <i class="fab fa-whatsapp" style="color: #25d366"></i><span class="tooltip">WhatsApp</span>
+                </div>
+                <div class="icon-item">
+                    <a href="{% url 'help' %}"><i class="fas fa-question-circle" style="color: #5b1272"></i><span
+                            class="tooltip">Help</span></a>
+                </div>
+            </div>
+            <div class="user-profile" id="profile-dropdown">
+                <span>Welcome, Deepak</span>
+                <div id="profile-options" class="dropdown-menu">
+                    <a href="#">My Document</a>
+                    <a href="#">Change Password</a>
+                    <a href="#">Download</a>
+                    <a href="#">WhatsApp Helpdesk</a>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- {# header end #} -->
+
+        <!-- {# header start #} -->
+        <div class="nav-bar">
+            <div class="brand-logo-small">
+                <img src="https://static.wixstatic.com/media/bcbc6e_646f8502f4c74edba0d7f9ff63971233~mv2.jpg/v1/fill/w_165,h_55,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Chemicals%20PVT%20LTD%20(5)_edited.jpg"
+                    alt="Sihauli Logo" />
+                <span>Sihauli Chemicals Private Limited</span>
+            </div>
+            <div class="nav-icons-small">
+                <a href="{% url 'dashboard' %}" class="nav-item-small"><i class="fas fa-chart-pie"
+                        style="color: #3cb102;"></i>Dashboard</a>
+                <a href="{% url 'add_new_leads' %}" class="nav-item-small"><i class="fas fa-envelope"
+                        style="color: #ebe712;"></i>Leads</a>
+                <a href="{% url 'companies_list' %}" class="nav-item-small"><i class="fas fa-building"
+                        style="color: #d24bfc;"></i>Companies</a>
+                <a href="{% url 'products_product_list' %}" class="nav-item-small"><i class="fas fa-cube"
+                        style="color: orangered;"></i>Products</a>
+                <a href="{% url 'vendors' %}" class="nav-item-small"><i class="fas fa-truck"
+                        style="color: #12b8eb;"></i>Vendors</a>
+                <a href="{% url 'users_header' %}" class="nav-item-small"><i class="fas fa-user"
+                        style="color: coral;"></i>Users</a>
+                <a href="{% url 'dealers' %}" class="nav-item-small"><i class="fas fa-users"
+                        style="color: #141414;"></i>Dealers</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Toggle leads dropdown
+            const leadsDropdown = document.getElementById("leads-dropdown");
+            const leadsOptions = document.getElementById("leads-options");
+
+            if (leadsDropdown) {
+                leadsDropdown.addEventListener("click", function () {
+                    leadsOptions.classList.toggle("visible");
+                });
+            }
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!leadsDropdown.contains(event.target)) {
+                    leadsOptions.classList.remove("visible");
+                }
+            });
+
+            // Toggle profile dropdown
+            const profileDropdown = document.getElementById("profile-dropdown");
+            const profileOptions = document.getElementById("profile-options");
+
+            if (profileDropdown) {
+                profileDropdown.addEventListener("click", function () {
+                    profileOptions.classList.toggle("visible");
+                });
+            }
+
+            document.addEventListener("click", function (event) {
+                if (!profileDropdown.contains(event.target)) {
+                    profileOptions.classList.remove("visible");
+                }
+            });
+
+            // Search Bar Functionality (optional enhancement)
+            const searchInput = document.querySelector(".search-box input");
+
+            if (searchInput) {
+                searchInput.addEventListener("keyup", function (event) {
+                    if (event.key === "Enter") {
+                        alert("Searching for: " + searchInput.value);
+                        // Implement actual search logic here
+                    }
+                });
+            }
+
+            // Icon hover effect (optional)
+            const icons = document.querySelectorAll(".icon-item i");
+
+        });
+    </script>
+</body>
+
+</html>

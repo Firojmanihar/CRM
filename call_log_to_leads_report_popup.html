@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Log Leads</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 88%;
+            margin-top: 20px;
+            margin-left: 120px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .filter-section {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .filter-section a {
+            color: #008cba;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+            font-size: 14px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: gray;
+        }
+
+        .download-btn {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .download-btn button {
+            background-color: #008cba;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .download-btn button:hover {
+            background-color: #005f73;
+        }
+
+        .download-btn button img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+        <div class="header">Call Log Leads</div>
+
+        <div class="filter-section">
+            Filter Applied:
+            <a href="#">By Year: <span id="selected-year">2025</span></a>,
+            <a href="#">By Month: <span id="selected-month">March</span></a>
+            <a href="#">🔄</a> <a href="#">🔽</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total Talk (H:m:s)</th>
+                        <th>Total Calls</th>
+                        <th>Talked</th>
+                        <th>Not Talked</th>
+                        <th>Unique</th>
+                        <th>Outgoing</th>
+                        <th>Incoming</th>
+                        <th>Missing Opportunities</th>
+                        <th>New Leads Created</th>
+                        <th>Sales/Service</th>
+                        <th>Business Call</th>
+                    </tr>
+                </thead>
+                <tbody id="call-log-table">
+                    <tr>
+                        <td colspan="12" class="no-data">No record found!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="download-btn">
+            <button onclick="downloadReport()">
+                <img src="https://cdn-icons-png.flaticon.com/512/109/109617.png" alt="Download">
+                Download Report
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function downloadReport() {
+            alert("Downloading Report...");
+        }
+    </script>
+
+</body>
+
+</html>

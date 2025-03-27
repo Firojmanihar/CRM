@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 88%;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions button {
+            padding: 8px 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .leads-board {
+            margin-top: 20px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filters label {
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .filters label.active {
+            background: #007bff;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        .lead {
+            display: flex;
+            justify-content: space-between;
+            background: #ffffff;
+            padding: 15px;
+            margin-top: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .lead-info,
+        .lead-status,
+        .contact-info {
+            width: 30%;
+        }
+
+        .contact-info {
+            background: #fff;
+            padding: 15px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .contact-icons,
+        .extra-icons {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 10px;
+        }
+
+        .contact-icons a,
+        .extra-icons a {
+            text-decoration: none;
+            font-size: 20px;
+            color: #007bff;
+        }
+
+        .contact-boxes {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .contact-box {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div class="container">
+        <header>
+            <h2>Manage Leads</h2>
+            <div class="actions">
+                <a href="{% url 'leads_board_filters_popup' %}"><button>Filters</button></a>
+                <a href="{% url 'add_new_companies' %}"><button>Add Leads</button></a>
+                <a href="{% url 'bulk_upload' %}"><button>Bulk Uploads</button></a>
+            </div>
+        </header>
+
+        <section class="leads-board">
+            <div class="filters">
+                <label class="active" onclick="setActiveFilter(this)"> All Active Leads</label>
+                <label onclick="setActiveFilter(this)"> New Leads</label>
+                <label onclick="setActiveFilter(this)"> Today's Follow-up</label>
+                <label onclick="setActiveFilter(this)"> Pending Follow-up</label>
+            </div>
+
+            <div class="lead">
+                <div class="lead-info">
+                    <p><strong>Lead ID:</strong> 2549</p>
+                    <p><strong>Lead Date:</strong> 18-Mar-2025</p>
+                    <p><strong>Quotation:</strong> N/A</p>
+                    <h3 style="color:#007bff;">Requirement for FORMALIN Neutralizer Powder</h3>
+                    <p>
+                        Product Required: <span id="short-text">FORMALIN Neutralizer Powder...</span>
+                        <span id="full-text" style="display: none;">FORMALIN NEUTRALIZER POWDER <br><br>Probable
+                            Requirement Type: Business Use Quantity: 100 Piece
+                            Mcat Name: Diagnostic Reagents</span>
+                        <span style="color: blue; cursor: pointer;"
+                            onclick="this.previousElementSibling.style.display='inline'; this.previousElementSibling.previousElementSibling.style.display='none'; this.style.display='none';">Read
+                            More</span>
+                    </p>
+                    <a href="{% url 'add_new_lead_reply_popup' %}"><button>Reply</button></a>
+                </div>
+                <div class="lead-status">
+                    <p><strong>Next Follow-up:</strong> 18-Mar-2025 12:00 AM</p>
+                    <p><strong>Assigned to:</strong> Komal</p>
+                    <p><strong>Stage:</strong> PENDING</p>
+                    <p><strong>Status:</strong> WARM</p>
+                    <p><strong>Source:</strong> Indiamart</p>
+                    <a href="{% url 'sand_quotation_popup' %}"><button>Send Quotation</button></a>
+                    <a href="{% url 'add_new_leads_update_popup' %}"><button>Update</button></a>
+                </div>
+                <div class="contact-info">
+                    <h4>From</h4>
+                    <p><strong>Darren Saunders</strong></p>
+                    <p>Pangalark Laboratory Technology</p>
+                    <p>Mobile: +61-61738235984</p>
+                    <p>Email: sales@pandalark.com.au</p>
+                    <p>Location: Australia</p>
+                    <div class="extra-icons" style="margin-bottom: 50px;">
+                        <a href="#">👁️ View</a>
+                        <a href="{% url 'add_new_lead_docs_popup' %}">📄 Docs</a>
+                        <a href="{% url 'add_new_lead_contact_pupup' %}">📇 Contacts</a>
+                        <a href="{% url 'add_new_lead_edit_popup' %}">✏️ Edit</a>
+                    </div>
+                    <div class="contact-boxes">
+                        <a href="{% url 'add_new_leads_update_popup' %}">
+                            <div class="contact-box">📞</div>
+                        </a>
+                        <a href="{% url 'meeting_popup' %}">
+                            <div class="contact-box"><i class="fab fa-whatsapp"
+                                    style="font-size:24px; color:rgb(42, 245, 42);"></i></div>
+                        </a>
+                        <a href="{% url 'add_new_lead_reply_popup' %}">
+                            <div class="contact-box">✉️</div>
+                        </a>
+                        <a href="{% url 'meeting_popup' %}">
+                            <div class="contact-box">📎</div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function showAlert(message) {
+            alert(message);
+        }
+
+        function setActiveFilter(selected) {
+            document.querySelectorAll('.filters label').forEach(label => {
+                label.classList.remove('active');
+            });
+            selected.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

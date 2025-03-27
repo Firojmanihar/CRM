@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            width: 88%;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+        }
+
+        .tab {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .active {
+            color: blue;
+            border-bottom: 2px solid blue;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .actions i {
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .bulk-update-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .bulk-update-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1;
+            top: 100%;
+            left: 0;
+        }
+
+        .bulk-update-menu a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .bulk-update-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+        <h2>Products List</h2>
+        <div class="header">
+            <div class="tabs">
+                <div class="tab active" id="approvedTab" onclick="showTab('approved')">Approved (192)</div>
+                <div class="tab" id="disabledTab" onclick="showTab('disabled')">Disabled (0)</div>
+            </div>
+            <div class="buttons">
+                <div class="bulk-update-dropdown">
+                    <button class="bulk-update-btn" onclick="toggleBulkUpdate()">Bulk Update <i
+                            class="fa fa-caret-down"></i></button>
+                    <div class="bulk-update-menu" id="bulkUpdateMenu">
+                        <a href="#" onclick="selectBulkOption('With GST')">With GST</a>
+                        <a href="#" onclick="selectBulkOption('Without GST')">Without GST</a>
+                        <a href="#" onclick="selectBulkOption('With Serial No')">With Serial No</a>
+                        <a href="#" onclick="selectBulkOption('Without Serial No')">Without Serial No</a>
+                        <a href="#" onclick="selectBulkOption('With HSN Code')">With HSN Code</a>
+                        <a href="#" onclick="selectBulkOption('Without HSN Code')">Without HSN Code</a>
+                        <a href="#" onclick="selectBulkOption('With Unit')">With Unit</a>
+                        <a href="#" onclick="selectBulkOption('Without Unit')">Without Unit</a>
+                        <a href="#" onclick="selectBulkOption('With Purchase Price')">With Purchase Price</a>
+                        <a href="#" onclick="selectBulkOption('Without Purchase Price')">Without Purchase Price</a>
+                        <a href="#" onclick="selectBulkOption('With Selling Price')">With Selling Price</a>
+                        <a href="#" onclick="selectBulkOption('Without Selling Price')">Without Selling Price</a>
+                    </div>
+                </div>
+                <a href="{% url 'product_list_filter_popup' %}"><button class="btn">Filters</button></a>
+                <a href="{% url 'bulk_upload' %}"><button class="btn">Bulk Uploads</button></a>
+                <a href="{% url 'add_product_popup' %}"><button class="btn">Add Products</button></a>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Product Name</th>
+                    <th>Code</th>
+                    <th>Sales Price</th>
+                    <th>Unit</th>
+                    <th>GST</th>
+                    <th>Photo</th>
+                    <th>Brochure</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="approvedProducts">
+                <script>
+                    let approvedTbody = "";
+                    for (let i = 192; i > 172; i--) {
+                        approvedTbody += `
+                            <tr>
+                                <td>${i}</td>
+                                <td>Product ${i}</td>
+                                <td>Code-${i}</td>
+                                <td>INR ${(i * 100).toFixed(2)}</td>
+                                <td>1 KG</td>
+                                <td>18%</td>
+                                <td>No</td>
+                                <td>No</td>
+                                <td class="actions">
+                                    <a href="{% url 'company_details_popup' %}"><i class="fa fa-search"></i></a>
+                                    <a href="{% url 'add_product_popup' %}"><i class="fa fa-edit"></i></a>
+                                    <a href="{% url 'add_product_popup' %}"><i class="fa fa-copy"></i></a>
+                                    <a href="#"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        `;
+                    }
+                    document.write(approvedTbody);
+                </script>
+            </tbody>
+            <tbody id="disabledProducts" style="display: none;">
+                <tr>
+                    <td colspan="9" style="text-align: center;">No disabled products found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function toggleBulkUpdate() {
+            document.getElementById("bulkUpdateMenu").classList.toggle("show");
+        }
+
+        function selectBulkOption(option) {
+            alert("You selected: " + option);
+            document.getElementById("bulkUpdateMenu").classList.remove("show");
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.matches('.bulk-update-btn')) {
+                var dropdowns = document.getElementsByClassName("bulk-update-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    if (dropdowns[i].classList.contains('show')) {
+                        dropdowns[i].classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function showTab(tab) {
+            document.getElementById("approvedProducts").style.display = tab === 'approved' ? 'table-row-group' : 'none';
+            document.getElementById("disabledProducts").style.display = tab === 'disabled' ? 'table-row-group' : 'none';
+            document.getElementById("approvedTab").classList.toggle("active", tab === 'approved');
+            document.getElementById("disabledTab").classList.toggle("active", tab === 'disabled');
+        }
+    </script>
+
+</body>
+
+</html>

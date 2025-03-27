@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMTP Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link rel="stylesheet" href="{% static 'myapp/css/email_notification.css' %}" />
+
+</head>
+
+<body>
+
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+
+  <div class="container">
+    <!-- General Settings Sidebar -->
+
+    <div>
+      {% include "myapp/general_sidebar.html" %}
+    </div>
+
+    <!-- Email Settings -->
+    <div class="email-settings" style="height: auto;">
+      <h2><i class="fa-solid fa-bell" style="margin-right: 10px"></i>Email Notification Settings</h2>
+      <table>
+        <thead>
+          <tr><b>
+              <th>Auto Email Action</th>
+              <th>Send Auto Email</th>
+              <th>Mail To Client</th>
+              <th> Relationship Manager</th>
+              <th>Mail To Manager</th>
+              <th>Mail To Skip Manager</th>
+            </b>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lead Acknowledgement</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>Lead Update</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>Change of Relationship Manager</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>Quotation Mail</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>PO Received Acknowledgement</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>Enquiry Regret Mail</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>Company Information Change</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>New User Creation Mail</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>PO Received Appreciation Mail to Employee</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+          </tr>
+
+          <tr>
+            <td>Follow Outstanging Amount</td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+            <td><label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                  class="slider"></span></label> <label>On</label></td>
+
+          </tr>
+          <tr>
+            <td><b>Day Report</b></td>
+            <td colspan="5">
+              <div style="text-align: left;">
+                <h5><b>To Mail :</b></h5>
+                <input type="email" style="margin-bottom:20px;" id="mailInput" placeholder="Enter email address" />
+
+                <h5><b>Mail Subject :</b></h5>
+                <input type="text" style="margin-bottom:20px;" id="mailSubject" placeholder="Enter mail subject" />
+
+                <h5 style="margin-bottom:15px;"><b>Active :</b></h5>
+                <label>Off</label> <label class="switch"><input type="checkbox" checked /><span
+                    class="slider"></span></label> <label>On</label>
+                <div style="display: flex; justify-content: center; margin-top: 20px;"><button
+                    type="submit">Save</button></div>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+  <script src="{% static 'myapp/js/email_notification.js' %}"></script>
+
+</body>
+
+</html>

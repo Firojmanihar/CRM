@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            display: flex;
+            align-items: center;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: end;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .filter-checkbox {
+            margin-right: 10px;
+        }
+
+        .filter-btn {
+            background-color: #17a2b8;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .action-icon {
+            cursor: pointer;
+            color: green;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+        <h2>Manage Notes 📋</h2>
+
+        <div class="filters">
+            <input type="checkbox" class="filter-checkbox" id="unreadReplies">
+            <label for="unreadReplies">Unread Replies</label>
+            <a href="{% url 'manage_notes_filters_popup' %}"><button class="filter-btn">Filters</button></a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Lead ID</th>
+                        <th>Company</th>
+                        <th>Assign To</th>
+                        <th>Note Added By</th>
+                        <th>Comment</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>36</td>
+                        <td>23-Dec-2024 2:18 PM</td>
+                        <td><a href="#">748</a></td>
+                        <td>Jaitra dye chem</td>
+                        <td>Komal</td>
+                        <td>Komal</td>
+                        <td>no requirement <br> Customer Purchased Other Side <br> <a href="#">View Replies (0)</a></td>
+                        <td><span class="action-icon">📄</span></td>
+                    </tr>
+                    <tr>
+                        <td>35</td>
+                        <td>21-Dec-2024 11:57 AM</td>
+                        <td><a href="#">699</a></td>
+                        <td>dr anshuman</td>
+                        <td>Komal</td>
+                        <td>Komal</td>
+                        <td>Customer Could Not Check mail hi Will Revert After Some time <br> <a href="#">View Replies
+                                (0)</a></td>
+                        <td><span class="action-icon">📄</span></td>
+                    </tr>
+                    <tr>
+                        <td>34</td>
+                        <td>21-Dec-2024 11:51 AM</td>
+                        <td><a href="#">717</a></td>
+                        <td>Shah Enterprises</td>
+                        <td>Komal</td>
+                        <td>Komal</td>
+                        <td>Customer Required 200 Kg Drum Price <br> Customer told High Rate Give For 25 Kg Drum <br> <a
+                                href="#">View Replies (0)</a></td>
+                        <td><span class="action-icon">📄</span></td>
+                    </tr>
+                    <tr>
+                        <td>33</td>
+                        <td>21-Dec-2024 11:47 AM</td>
+                        <td><a href="#">720</a></td>
+                        <td>Chemie Lines</td>
+                        <td>Komal</td>
+                        <td>Komal</td>
+                        <td>Customer purchased Other Side <br> <a href="#">View Replies (0)</a></td>
+                        <td><span class="action-icon">📄</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

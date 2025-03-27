@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .popup-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filter-container {
+            width: 700px;
+            height: 900px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .filter-header {
+            background-color: #008cba;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .filter-section {
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .filter-section input {
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .toggle-button {
+            width: 20%;
+            background-color: #008cba;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .toggle-button:hover {
+            background-color: #005f73;
+        }
+
+        .toggle-content {
+            display: none;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .toggle-content label {
+            display: inline-block;
+            width: calc(33.33% - 10px);
+        }
+
+        .filter-buttons {
+            text-align: center;
+            padding: 15px;
+        }
+
+        .filter-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background-color: #008cba;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .filter-buttons button:hover {
+            background-color: #005f73;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="popup" class="popup-container">
+        <div class="filter-container">
+            <button class="close-button"
+                onclick="document.getElementById('popup').style.display = 'none'">&times;</button>
+            <div class="filter-header">FILTER</div>
+
+            <div class="filter-section">
+                <label for="keyword">By Keyword</label>
+                <input type="text" id="keyword" placeholder="Search by keyword...">
+            </div>
+
+            <div class="filter-section">
+                <label>By Date</label>
+                <input type="date" id="start-date" style="margin-right:30px;"> to <input type="date" id="end-date"
+                    style="margin-left:30px;">
+            </div>
+
+            <div class="filter-section">
+                <label>By User</label>
+                <select>
+                    <option>None selected</option>
+                    <option>Select All</option>
+                    <option>Common Lead Pull</option>
+                    <option>Deepak</option>
+                    <option>Anup</option>
+                    <option>Anand</option>
+                    <option>Komal</option>
+                    <option>Shikha</option>
+                </select>
+                <label><input type="checkbox"> Global</label>
+                <label><input type="checkbox"> India</label>
+            </div>
+
+            <button class="toggle-button" onclick="toggleSection('type-section')">By Type ▼</button>
+            <div id="type-section" class="toggle-content">
+                <label><input type="radio" name="type" checked> All Leads</label>
+                <label><input type="radio" name="type"> Active Leads</label>
+            </div>
+
+            <button class="toggle-button" onclick="toggleSection('stage-section')">By Stage ▼</button>
+            <div id="stage-section" class="toggle-content">
+                <label><input type="checkbox"> New Leads</label>
+                <label><input type="checkbox"> Not Picked</label>
+                <label><input type="checkbox"> Prospect</label>
+                <label><input type="checkbox"> Contacted</label>
+                <label><input type="checkbox"> Visited</label>
+                <label><input type="checkbox"> Quoted</label>
+                <label><input type="checkbox"> Negotiation</label>
+                <label><input type="checkbox"> Deal Won</label>
+                <label><input type="checkbox"> Deal Lost</label>
+                <label><input type="checkbox"> Regretted</label>
+                <label><input type="checkbox"> Auto-regretted</label>
+                <label><input type="checkbox"> Auto Deal Lost</label>
+            </div>
+
+            <button class="toggle-button" onclick="toggleSection('status-section')">By Status ▼</button>
+            <div id="status-section" class="toggle-content">
+                <label><input type="checkbox"> Warm</label>
+                <label><input type="checkbox"> Hot</label>
+                <label><input type="checkbox"> Cold</label>
+                <label><input type="checkbox"> Star Leads</label>
+                <label><input type="checkbox"> Pending Followup</label>
+            </div>
+
+            <button class="toggle-button" onclick="toggleSection('source-section')">By Source ▼</button>
+            <div id="source-section" class="toggle-content">
+                <label><input type="checkbox">Call Logs</label>
+                <label><input type="checkbox">Auto Ticket </label>
+                <label><input type="checkbox">Ali Baba</label>
+                <label><input type="checkbox">India Mart</label>
+                <label><input type="checkbox">WhatsApp</label>
+                <label><input type="checkbox">Direct Visit</label>
+                <label><input type="checkbox">Trade Fair</label>
+                <label><input type="checkbox">TV/Radio Ads</label>
+                <label><input type="checkbox">Sales Visit</label>
+                <label><input type="checkbox">Online Market Place</label>
+                <label><input type="checkbox">Newspaper Ads</label>
+                <label><input type="checkbox">Email Enquiry</label>
+                <label><input type="checkbox">Call Enquiry</label>
+            </div>
+
+            <div class="filter-buttons">
+                <button>Search</button>
+                <button>Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(id) {
+            var section = document.getElementById(id);
+            section.style.display = section.style.display === "block" ? "none" : "flex";
+        }
+    </script>
+</body>
+
+</html>

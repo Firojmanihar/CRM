@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Dealer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 88%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div class="container">
+        <h3>Manage Dealer</h3>
+        <div class="button-container">
+            <a href="{% url 'add_dealer' %}"><button class="button">➕ Add Dealer</button></a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>CEO Name</th>
+                    <th>Contact Person</th>
+                    <th>GST</th>
+                    <th>PAN</th>
+                    <th>Address</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="dealerTable">
+                {% for dealer in dealers %}
+                <tr>
+                    <td>{{ dealer.name }}</td>
+                    <td>{{ dealer.email }}</td>
+                    <td>{{ dealer.mobile }}</td>
+                    <td>{{ dealer.ceo_name }}</td>
+                    <td>{{ dealer.contact_person }}</td>
+                    <td>{{ dealer.gst }}</td>
+                    <td>{{ dealer.pan }}</td>
+                    <td>{{ dealer.address }}</td>
+                    <td>{{ dealer.location }}</td>
+                    <td><button class="button" onclick="deleteDealer(this)">Delete</button></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" style="text-align: center;">No dealer found!!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="addDealerModal">
+        <h4>Add Dealer</h4>
+        <form id="dealerForm">
+            {% csrf_token %}
+            <label>Name:</label>
+            <input type="text" name="name" required><br>
+            <label>Email:</label>
+            <input type="email" name="email" required><br>
+            <label>Mobile:</label>
+            <input type="text" name="mobile" required><br>
+            <button type="submit" class="button">Add Dealer</button>
+            <button type="button" class="button" onclick="closeModal()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById("addDealerModal").classList.add("active");
+            document.getElementById("modalOverlay").classList.add("active");
+        }
+        function closeModal() {
+            document.getElementById("addDealerModal").classList.remove("active");
+            document.getElementById("modalOverlay").classList.remove("active");
+        }
+        document.getElementById("dealerForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+            fetch("#", {
+                method: "POST",
+                body: formData
+            }).then(response => response.json()).then(data => {
+                let row = `<tr>
+                    <td>${data.name}</td>
+                    <td>${data.email}</td>
+                    <td>${data.mobile}</td>
+                    <td>${data.ceo_name}</td>
+                    <td>${data.contact_person}</td>
+                    <td>${data.gst}</td>
+                    <td>${data.pan}</td>
+                    <td>${data.address}</td>
+                    <td>${data.location}</td>
+                    <td><button class='button' onclick='deleteDealer(this)'>Delete</button></td>
+                </tr>`;
+                document.getElementById("dealerTable").innerHTML += row;
+                closeModal();
+                document.getElementById("dealerForm").reset();
+            });
+        });
+        function deleteDealer(button) {
+            button.parentElement.parentElement.remove();
+        }
+    </script>
+</body>
+
+</html>

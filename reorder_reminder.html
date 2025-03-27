@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Renewal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 88%;
+            margin: auto;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .key {
+            background-color: #f3f3f3;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 48%;
+            margin-right: 2%;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background: red;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .table th {
+            background: #f9f9f9;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        .add-btn,
+        .filter-btn,
+        .bulk-btn {
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+        }
+
+        .filter-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .add-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .bulk-btn {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            display: none;
+            width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .close {
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function toggleForm() {
+            document.getElementById('addForm').classList.toggle('hidden');
+        }
+        function toggleFilterModal() {
+            const modal = document.getElementById('filterModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+    <div class="container">
+        <div class="title">
+            <span>Manage Renewal</span>
+            <div class="button-group">
+                <button class="filter-btn" onclick="toggleFilterModal()"><i class="fas fa-filter"></i> Filters</button>
+                <a href="{% url 'add_new_companies' %}"><button class="add-btn"><i class="fas fa-plus"></i>
+                        Add</button></a>
+                <a href="{% url 'bulk_upload' %}"><button class="bulk-btn"><i class="fas fa-upload"></i> Bulk
+                        Uploads</button></a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Company</th>
+                    <th>Renewal Ammount</th>
+                    <th>Status</th>
+                    <th>Renewal Date</th>
+                    <th>Follow-Up</th>
+                    <th>Assign T0</th>
+                    <th>Lead ID</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in existing_accounts %}
+                <tr>
+                    <td>Lead Push <br> <a href="#">🔗 Push URL</a></td>
+                    <td>{{ account.account_name }}</td>
+                    <td>{{ account.mobile }}</td>
+                    <td>{{ account.assign_to|join:", " }}</td>
+                    <td class="actions">
+                        <button class="btn"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="filterModal" class="modal">
+        <div class="modal-header">
+            <span><strong>FILTER RENEWAL/AMC</strong></span>
+            <span class="close" onclick="toggleFilterModal()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <label>Renewal Date</label>
+            <input type="date" style="margin-left: 20px;"> To <input type="date" style="width: 150px; height: 20px;">
+            <br><br>
+            <label>Follow-Up Date</label>
+            <input type="date" style="margin-left: 10px;"> To <input type="date" style="width: 150px; height: 20px;">
+            <br><br>
+            <label>Renewal Status</label>
+            <input type="checkbox" style="margin-left: 10px;"> Pending
+            <input type="checkbox"> Active
+            <input type="checkbox"> Won
+            <input type="checkbox"> Lost
+        </div>
+        <div class="modal-footer">
+            <button class="btn">Search</button>
+            <button class="btn btn-danger" onclick="toggleFilterModal()">Reset</button>
+        </div>
+
+        <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content p-3">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex">
+                        <div class="w-100 me-3">
+                            <label>Email</label>
+                            <input type="email" class="form-control" placeholder="E-mail"><br>
+                            <label>Mobile</label>
+                            <input type="text" class="form-control" placeholder="Mobile"><br>
+                        </div>
+                        <div class="alert alert-secondary" role="alert">
+                            Buyer's Email ID or Mobile number is mandatory to add a new company
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-start">
+                        <button class="btn btn-primary">Save & Continue</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

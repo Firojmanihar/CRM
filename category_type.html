@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Purchase Setting</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+            gap: 20px;
+        }
+
+        .box {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 650px;
+
+        }
+
+        h2,
+        h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            padding: 5px 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .edit-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            margin-left: 5px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+    <div class="container">
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+        <div class="email-settings1">
+            <h2><i class="fa-solid fa-file-invoice"></i> Purchase Setting</h2>
+            <div class="container">
+                <!-- Left Box (Purchase Category) -->
+                <div class="box">
+                    <h3>Purchase Category</h3>
+                    <label for="category-name">Name:</label>
+                    <input type="text" id="category-name">
+                    <button class="btn" onclick="addCategory()">Add</button>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="category-table">
+                            <tr>
+                                <td>Operating Expenses (OPEX)</td>
+                                <td>
+                                    <button class="edit-btn" onclick="editRow(this)"><i
+                                            class="fa-solid fa-pen"></i></button>
+                                    <button class="delete-btn" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Capital Expenses (CAPEX)</td>
+                                <td>
+                                    <button class="edit-btn" onclick="editRow(this)"><i
+                                            class="fa-solid fa-pen"></i></button>
+                                    <button class="delete-btn" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Right Box (Purchase Category Type) -->
+                <div class="box">
+                    <h3>Purchase Category Type</h3>
+                    <label for="category-select">Category:</label>
+                    <select id="category-select">
+                        <option>== Select ==</option>
+                        <option>Operating Expenses (OPEX)</option>
+                        <option>Capital Expenses (CAPEX)</option>
+                    </select>
+
+                    <label for="sub-category-name">Name:</label>
+                    <input type="text" id="sub-category-name">
+                    <button class="btn" onclick="addSubCategory()">Save</button>
+
+                    <label for="filter-category">Filter By Category:</label>
+                    <select id="filter-category" onchange="filterSubCategories()">
+                        <option>== Select ==</option>
+                        <option>Operating Expenses (OPEX)</option>
+                        <option>Capital Expenses (CAPEX)</option>
+                    </select>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sub-category-table">
+                            <tr data-category="Operating Expenses (OPEX)">
+                                <td>Operating Expenses (OPEX) >> Rent and Utilities</td>
+                                <td>
+                                    <button class="edit-btn" onclick="editRow(this)"><i
+                                            class="fa-solid fa-pen"></i></button>
+                                    <button class="delete-btn" onclick="deleteRow(this)"><i
+                                            class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addCategory() {
+            let name = document.getElementById("category-name").value.trim();
+            if (name === "") return;
+
+            let table = document.getElementById("category-table");
+            let row = table.insertRow();
+            row.innerHTML = `<td>${name}</td>
+                         <td>
+                             <button class="edit-btn" onclick="editRow(this)"><i class="fa-solid fa-pen"></i></button>
+                             <button class="delete-btn" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></button>
+                         </td>`;
+
+            document.getElementById("category-name").value = "";
+        }
+
+        function addSubCategory() {
+            let category = document.getElementById("category-select").value;
+            let name = document.getElementById("sub-category-name").value.trim();
+            if (category === "== Select ==" || name === "") return;
+
+            let table = document.getElementById("sub-category-table");
+            let row = table.insertRow();
+            row.setAttribute("data-category", category);
+            row.innerHTML = `<td>${category} >> ${name}</td>
+                         <td>
+                             <button class="edit-btn" onclick="editRow(this)"><i class="fa-solid fa-pen"></i></button>
+                             <button class="delete-btn" onclick="deleteRow(this)"><i class="fa-solid fa-trash"></i></button>
+                         </td>`;
+
+            document.getElementById("sub-category-name").value = "";
+        }
+
+        function editRow(button) {
+            let row = button.closest("tr");
+            let cell = row.cells[0];
+            let newValue = prompt("Edit name:", cell.innerText);
+            if (newValue) cell.innerText = newValue;
+        }
+
+        function deleteRow(button) {
+            button.closest("tr").remove();
+        }
+    </script>
+</body>
+
+</html>

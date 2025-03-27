@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .popup-overlay {
+            display: flex;
+            position: fixed;
+            top: 0%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: right;
+
+        }
+
+        .notification-box {
+            width: 450px;
+            height: 350px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            padding: 15px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            margin-right: 360px;
+        }
+
+        .notification-header {
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 16px;
+            color: #666;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .active-tab {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .notification-item {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .notification-item a {
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .notification-item p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="notification-box">
+            <div class="notification-header">
+                <span>Notifications</span>
+                <span class="close-btn" onclick="closePopup()">✖</span>
+            </div>
+
+            <div class="tab-buttons">
+                <button class="tab-btn active-tab" onclick="switchTab('newLead')">New Lead <span>(0)</span></button>
+                <button class="tab-btn" onclick="switchTab('followUp')">Follow-up <span>(0)</span></button>
+            </div>
+
+            <div id="newLead" class="notification-content">
+                <div class="notification-item">
+                    <a href="#">CDEA, SLES 70%(Sodium Lauryl Ether Sulfate, CAPB; Calcium hypochlorite</a>
+                    <p>Lead ID: 45 | Date: 26-Oct-2024</p>
+                    <p>From: Alfares alarabie (Alfares alarabie) | Yemen</p>
+                </div>
+            </div>
+
+            <div id="followUp" class="notification-content" style="display: none;">
+                <p>No follow-up notifications.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closePopup() {
+            document.getElementById("popupOverlay").style.display = "none";
+        }
+
+        function switchTab(tab) {
+            document.getElementById("newLead").style.display = "none";
+            document.getElementById("followUp").style.display = "none";
+
+            if (tab === "newLead") {
+                document.getElementById("newLead").style.display = "block";
+            } else {
+                document.getElementById("followUp").style.display = "block";
+            }
+
+            let buttons = document.querySelectorAll(".tab-btn");
+            buttons.forEach(button => button.classList.remove("active-tab"));
+
+            if (tab === "newLead") {
+                buttons[0].classList.add("active-tab");
+            } else {
+                buttons[1].classList.add("active-tab");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

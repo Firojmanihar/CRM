@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 1800px;
+            margin-left: 5%;
+        }
+
+        .header1 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .company-logo img {
+            max-width: 150px;
+        }
+
+        .company-details {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1px;
+        }
+
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+
+
+
+    <div class="container mt-4">
+        <div class="header1">
+            <h2>Settings</h2>
+
+        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="company-info mb-3">
+                <div class="company-logo">
+                    <img src="https://static.wixstatic.com/media/bcbc6e_646f8502f4c74edba0d7f9ff63971233~mv2.jpg/v1/fill/w_165,h_55,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Chemicals%20PVT%20LTD%20(5)_edited.jpg"
+                        alt="Company Logo">
+                    <br>
+                    <button type="button" class="btn btn-info mt-2" onclick="changePicture()">Change Picture</button>
+                </div>
+
+                <div class="company-details">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-weight: bold;">Company Name <span
+                                    style="color: red;">* </span>:</label>
+                            <input type="text" class="form-control" name="company_name" value="{{ company.name }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" style="font-weight: bold;">Company Address <span
+                                    style="color: red;">* </span>:</label>
+                            <input type="text" class="form-control" name="company_address"
+                                value="{{ company.address }}">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <label class="form-label" style="font-weight: bold;"> Country <span style="color: red;">*
+                                </span>:</label>
+                            <div class="dropdown1">
+                                <!-- The input field for country -->
+                                <input type="text" class="form-control" name="country" id="country-input"
+                                    value="{{ company.country }}" placeholder="Select a country" autocomplete="off">
+
+                                <!-- The dropdown list of countries -->
+                                <ul class="dropdown-menu" id="country-dropdown"
+                                    style="width: 100%; display: none; position: absolute;">
+                                    <li><a class="dropdown-item" href="#">Afghanistan</a></li>
+                                    <li><a class="dropdown-item" href="#">Albania</a></li>
+                                    <li><a class="dropdown-item" href="#">Algeria</a></li>
+                                    <li><a class="dropdown-item" href="#">Andorra</a></li>
+                                    <li><a class="dropdown-item" href="#">Angola</a></li>
+                                    <li><a class="dropdown-item" href="#">Argentina</a></li>
+                                    <li><a class="dropdown-item" href="#">Australia</a></li>
+                                    <li><a class="dropdown-item" href="#">Austria</a></li>
+                                    <li><a class="dropdown-item" href="#">Bangladesh</a></li>
+                                    <li><a class="dropdown-item" href="#">Belgium</a></li>
+                                    <li><a class="dropdown-item" href="#">Brazil</a></li>
+                                    <li><a class="dropdown-item" href="#">Canada</a></li>
+                                    <li><a class="dropdown-item" href="#">China</a></li>
+                                    <li><a class="dropdown-item" href="#">Colombia</a></li>
+                                    <li><a class="dropdown-item" href="#">Croatia</a></li>
+                                    <li><a class="dropdown-item" href="#">Denmark</a></li>
+                                    <li><a class="dropdown-item" href="#">Egypt</a></li>
+                                    <li><a class="dropdown-item" href="#">Finland</a></li>
+                                    <li><a class="dropdown-item" href="#">France</a></li>
+                                    <li><a class="dropdown-item" href="#">Germany</a></li>
+                                    <li><a class="dropdown-item" href="#">Greece</a></li>
+                                    <li><a class="dropdown-item" href="#">India</a></li>
+                                    <li><a class="dropdown-item" href="#">Indonesia</a></li>
+                                    <li><a class="dropdown-item" href="#">Iran</a></li>
+                                    <li><a class="dropdown-item" href="#">Ireland</a></li>
+                                    <li><a class="dropdown-item" href="#">Israel</a></li>
+                                    <li><a class="dropdown-item" href="#">Italy</a></li>
+                                    <li><a class="dropdown-item" href="#">Japan</a></li>
+                                    <li><a class="dropdown-item" href="#">Kenya</a></li>
+                                    <li><a class="dropdown-item" href="#">Kuwait</a></li>
+                                    <li><a class="dropdown-item" href="#">Mexico</a></li>
+                                    <li><a class="dropdown-item" href="#">Morocco</a></li>
+                                    <li><a class="dropdown-item" href="#">Netherlands</a></li>
+                                    <li><a class="dropdown-item" href="#">New Zealand</a></li>
+                                    <li><a class="dropdown-item" href="#">Nigeria</a></li>
+                                    <li><a class="dropdown-item" href="#">Norway</a></li>
+                                    <li><a class="dropdown-item" href="#">Pakistan</a></li>
+                                    <li><a class="dropdown-item" href="#">Philippines</a></li>
+                                    <li><a class="dropdown-item" href="#">Portugal</a></li>
+                                    <li><a class="dropdown-item" href="#">Qatar</a></li>
+                                    <li><a class="dropdown-item" href="#">Russia</a></li>
+                                    <li><a class="dropdown-item" href="#">Saudi Arabia</a></li>
+                                    <li><a class="dropdown-item" href="#">Singapore</a></li>
+                                    <li><a class="dropdown-item" href="#">South Africa</a></li>
+                                    <li><a class="dropdown-item" href="#">South Korea</a></li>
+                                    <li><a class="dropdown-item" href="#">Spain</a></li>
+                                    <li><a class="dropdown-item" href="#">Sweden</a></li>
+                                    <li><a class="dropdown-item" href="#">Switzerland</a></li>
+                                    <li><a class="dropdown-item" href="#">Turkey</a></li>
+                                    <li><a class="dropdown-item" href="#">United Kingdom</a></li>
+                                    <li><a class="dropdown-item" href="#">United States</a></li>
+                                    <li><a class="dropdown-item" href="#">Venezuela</a></li>
+                                    <li><a class="dropdown-item" href="#">Vietnam</a></li>
+                                    <li><a class="dropdown-item" href="#">Yemen</a></li>
+                                    <li><a class="dropdown-item" href="#">Zambia</a></li>
+                                    <li><a class="dropdown-item" href="#">Zimbabwe</a></li>
+                                    <!-- Add more countries here -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label" style="font-weight: bold;">State <span style="color: red;">*
+                                </span>:</label>
+                            <div class="dropdown1">
+                                <!-- The input field for state -->
+                                <input type="text" class="form-control" name="state" id="state-input"
+                                    value="{{ company.state }}" placeholder="Select a state" autocomplete="off">
+
+                                <!-- The dropdown list of Indian states -->
+                                <ul class="dropdown-menu" id="state-dropdown"
+                                    style="width: 100%; display: none; position: absolute;">
+                                    <li><a class="dropdown-item" href="#">Andhra Pradesh</a></li>
+                                    <li><a class="dropdown-item" href="#">Arunachal Pradesh</a></li>
+                                    <li><a class="dropdown-item" href="#">Assam</a></li>
+                                    <li><a class="dropdown-item" href="#">Bihar</a></li>
+                                    <li><a class="dropdown-item" href="#">Chhattisgarh</a></li>
+                                    <li><a class="dropdown-item" href="#">Goa</a></li>
+                                    <li><a class="dropdown-item" href="#">Gujarat</a></li>
+                                    <li><a class="dropdown-item" href="#">Haryana</a></li>
+                                    <li><a class="dropdown-item" href="#">Himachal Pradesh</a></li>
+                                    <li><a class="dropdown-item" href="#">Jharkhand</a></li>
+                                    <li><a class="dropdown-item" href="#">Karnataka</a></li>
+                                    <li><a class="dropdown-item" href="#">Kerala</a></li>
+                                    <li><a class="dropdown-item" href="#">Madhya Pradesh</a></li>
+                                    <li><a class="dropdown-item" href="#">Maharashtra</a></li>
+                                    <li><a class="dropdown-item" href="#">Manipur</a></li>
+                                    <li><a class="dropdown-item" href="#">Meghalaya</a></li>
+                                    <li><a class="dropdown-item" href="#">Mizoram</a></li>
+                                    <li><a class="dropdown-item" href="#">Nagaland</a></li>
+                                    <li><a class="dropdown-item" href="#">Odisha</a></li>
+                                    <li><a class="dropdown-item" href="#">Punjab</a></li>
+                                    <li><a class="dropdown-item" href="#">Rajasthan</a></li>
+                                    <li><a class="dropdown-item" href="#">Sikkim</a></li>
+                                    <li><a class="dropdown-item" href="#">Tamil Nadu</a></li>
+                                    <li><a class="dropdown-item" href="#">Telangana</a></li>
+                                    <li><a class="dropdown-item" href="#">Tripura</a></li>
+                                    <li><a class="dropdown-item" href="#">Uttar Pradesh</a></li>
+                                    <li><a class="dropdown-item" href="#">Uttarakhand</a></li>
+                                    <li><a class="dropdown-item" href="#">West Bengal</a></li>
+                                    <li><a class="dropdown-item" href="#">Andaman and Nicobar Islands</a></li>
+                                    <li><a class="dropdown-item" href="#">Chandigarh</a></li>
+                                    <li><a class="dropdown-item" href="#">Dadra and Nagar Haveli and Daman and Diu</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Lakshadweep</a></li>
+                                    <li><a class="dropdown-item" href="#">Delhi</a></li>
+                                    <li><a class="dropdown-item" href="#">Puducherry</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label" style="font-weight: bold;">City <span style="color: red;">*
+                                </span>:</label>
+                            <input type="text" class="form-control" name="city" value="{{ company.city }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">Pin Number <span style="color: red;">*
+                        </span>:</label>
+                    <input type="number" class="form-control" name="gst" value="{{ company.gst }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">GST <span style="color: red;">*
+                        </span>:</label>
+                    <input type="text" class="form-control" name="pan" value="{{ company.pan }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">PAN <span style="color: red;">*
+                        </span>:</label>
+                    <input type="text" class="form-control" name="cin" value="{{ company.cin }}">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">IEC</label>
+                    <input type="text" class="form-control" name="gst" value="{{ company.gst }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">TAN</label>
+                    <input type="text" class="form-control" name="pan" value="{{ company.pan }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">CIN/LLPIN</label>
+                    <input type="text" class="form-control" name="cin" value="{{ company.cin }}">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">Default Currency <span style="color: red;">*
+                        </span>:</label>
+                    <select class="form-control" name="currency">
+                        <option value="">Select a currency</option>
+                        <option value="INR">Indian Rupee (INR)</option>
+                        <option value="USD">US Dollar (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                        <option value="GBP">British Pound (GBP)</option>
+                        <option value="AUD">Australian Dollar (AUD)</option>
+                        <option value="CAD">Canadian Dollar (CAD)</option>
+                        <option value="JPY">Japanese Yen (JPY)</option>
+                        <option value="CNY">Chinese Yuan (CNY)</option>
+                        <option value="SGD">Singapore Dollar (SGD)</option>
+                        <option value="CHF">Swiss Franc (CHF)</option>
+                        <option value="NZD">New Zealand Dollar (NZD)</option>
+                        <option value="MYR">Malaysian Ringgit (MYR)</option>
+                        <option value="THB">Thai Baht (THB)</option>
+                        <option value="PKR">Pakistani Rupee (PKR)</option>
+                        <option value="SAR">Saudi Riyal (SAR)</option>
+                        <option value="AED">United Arab Emirates Dirham (AED)</option>
+                        <option value="RUB">Russian Ruble (RUB)</option>
+                        <option value="ZAR">South African Rand (ZAR)</option>
+                        <option value="BRL">Brazilian Real (BRL)</option>
+                        <option value="MXN">Mexican Peso (MXN)</option>
+                        <option value="KRW">South Korean Won (KRW)</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">Default Tax Type <span style="color: red;">*
+                        </span>:</label>
+                    <select class="form-control" name="tax_type">
+                        <option value="">Select a tax type</option>
+                        <option value="GST">GST (Goods and Services Tax)</option>
+                        <option value="VAT">VAT (Value Added Tax)</option>
+                        <option value="Sales Tax">Sales Tax</option>
+                        <option value="Service Tax">Service Tax</option>
+                        <option value="Income Tax">Income Tax</option>
+                        <option value="Excise Tax">Excise Tax</option>
+                        <option value="Customs Duty">Customs Duty</option>
+                        <option value="Property Tax">Property Tax</option>
+                        <option value="Corporate Tax">Corporate Tax</option>
+                        <option value="Capital Gains Tax">Capital Gains Tax</option>
+                        <option value="Wealth Tax">Wealth Tax</option>
+                        <option value="Estate Tax">Estate Tax</option>
+                        <option value="Inheritance Tax">Inheritance Tax</option>
+                    </select>
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">CEO Name <span style="color: red;">*
+                        </span>:</label>
+                    <input type="text" class="form-control" name="pan" value="{{ company.pan }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">Contact Person <span style="color: red;">*
+                        </span>:</label>
+                    <input type="text" class="form-control" name="cin" value="{{ company.cin }}">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">Email 1 <span style="color: red;">*
+                        </span>:</label>
+                    <input type="email" class="form-control" name="gst" value="{{ company.gst }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">Email 2:</label>
+                    <input type="text" class="form-control" name="pan" value="{{ company.pan }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" style="font-weight: bold;">Website</label>
+                    <input type="text" class="form-control" name="cin" value="{{ company.cin }}">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">Mobile 1 <span style="color: red;">*
+                        </span>:</label>
+                    <input type="number" class="form-control" name="gst" value="{{ company.gst }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">Mobile 2:</label>
+                    <input type="number" class="form-control" name="pan" value="{{ company.pan }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">Phone 1:</label>
+                    <input type="number" class="form-control" name="pan" value="{{ company.pan }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" style="font-weight: bold;">phone 2:</label>
+                    <input type="number" class="form-control" name="cin" value="{{ company.cin }}">
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <label class="form-label" style="font-weight: bold;">About Company <span style="color: red;">*
+                    </span>:</label>
+                <textarea class="form-control" rows="4"
+                    name="about">{{ company.about }}Sihauli Chemicals Private Limited the most innovative Manufacturers, Exporters & Suppliers was incorporated in 2022 to provide effective Chemicals solutions. Our estimable clients rely on us for superior class products including Organic & Inorganic & Aroma & Cosmetics & Pharma & Agro Application Base Chemicals Products. We hold wide recognizance in being a reliable entity for our offered products that bring forth a advantageous set of attributes such as high accuracy and high efficacy performance, precise design, longer functional life and cost effective price tags.
+                    With broad experience of pharmaceutical industry, we are geared up to meet the expectations of consumers in India. Our products are designed with strict adherence to the latest standards of market requirements. We have developed a highly advanced testing unit to inspect every product under various performance parameters. In addition to this, we have employed a team of dexterous professionals who with their wide adeptness ensure the unobstructed flow of production as per qualitative management system. Moreover, we have garnered ourselves vast clientele base to serve by providing these products at market leading rates.</textarea>
+            </div>
+
+            <div class="form-group">
+                <div class="row mt-3">
+                    <label class="form-label" style="font-weight: bold;">Quotation Header Banner: (W:800px, H:100px,
+                        Formats: gif, png, jpg, jpeg)</label>
+                    <div class="col-auto d-flex align-items-center">
+                        <input type="file" class="form-control" name="header_banner" accept="image/*">
+                        <label class="ms-5">
+                            <input type="checkbox" name="show_banner"> Show the Banner
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row mt-3">
+                            <label class="form-label" style="font-weight: bold;">Quotation Cover Letter (Body
+                                Text):</label>
+                            <textarea class="form-control" name="body_text"
+                                rows="3">We are indeed thankful to you for referring us and evincing interest in our products...</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row mt-3">
+                                <label class="form-label" style="font-weight: bold;">Quotation Cover Letter (Footer
+                                    Text):</label>
+                                <textarea class="form-control" name="footer_text"
+                                    rows="2">Thank you again for showing your interest with our company...</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row mt-3">
+                                    <label class="form-label" style="font-weight: bold;">Other Terms &
+                                        Conditions:</label>
+                                    <textarea class="form-control" name="terms_conditions" rows="2"></textarea>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="row mt-3">
+                                        <label class="form-label" style="font-weight: bold;">Banker's Details 1:</label>
+                                        <textarea class="form-control" name="bank_details_1" rows="3">Bank Name: ICICI BANK LIMITED, 
+VIRAR Bank Account No.: 80610006722
+Bank IFSC code: ICIC0008061
+Account holder’s name: SIHAULI CHEMICALS PVT LTD</textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row mt-3">
+                                            <label class="form-label" style="font-weight: bold;">Banker's Details
+                                                2:</label>
+                                            <textarea class="form-control" name="bank_details_2" rows="3"
+                                                placeholder="Add Bank account details"></textarea>
+                                        </div>
+
+                                        <div>
+                                            <div class="row mt-3">
+                                                <h2 class="mb-4">Upload Digital Signature & PDF Brochure</h2>
+                                                <form method="POST" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+
+                                                    <!-- PDF Upload -->
+                                                    <div class="form-group">
+                                                        <div class="row mt-3">
+                                                            <label class="form-label" style="font-weight: bold;">PDF
+                                                                Brochure:</label>
+                                                            <div class="d-flex align-items-center">
+                                                                <input type="file" class="form-control me-2"
+                                                                    name="pdf_file" accept="application/pdf"
+                                                                    onchange="previewPDF(this)" style="width: auto;">
+                                                                <span id="pdf-name" class="me-2">No file chosen</span>
+                                                                <button type="button" class="btn btn-danger btn-sm"
+                                                                    onclick="removePDF()">🗑</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Authorized Signatory Name -->
+                                                    <div class="form-group mt-3">
+                                                        <label class="form-label" style="font-weight: bold;">Name of
+                                                            Authorized Signatory:</label>
+                                                        <input type="text" class="form-control" name="signatory_name"
+                                                            required>
+                                                    </div>
+
+                                                    <!-- Digital Signature Upload -->
+                                                    {% comment %} <div class="form-group mt-3">
+                                                        <label class="form-label">Digital Signature:</label>
+                                                        <div class="d-flex align-items-center">
+                                                            <input type="file" class="form-control"
+                                                                name="signature_image" accept="image/*"
+                                                                onchange="previewSignature(this)">
+                                                            <button type="button" class="btn btn-info ms-2"
+                                                                onclick="changeSignature()">Change Digital
+                                                                Signature</button>
+                                                        </div>
+                                                    </div> {% endcomment %}
+
+                                                    <!-- Signature Preview -->
+                                                    <div class="signature-preview mt-3">
+                                                        <img id="signature-preview"
+                                                            src="data:image/png;base64,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"
+                                                            alt="No Signature" style="width: 30%;">
+                                                        <button type="button" class="btn btn-info ms-2"
+                                                            onclick="changeSignature()" style="margin-top:-15%;">Change
+                                                            Digital Signature</button>
+                                                    </div>
+
+                                                    <div class="mt-3 text-left">
+                                                        <button type="submit" class="btn btn-success">Save
+                                                            Changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <script
+                                        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+                                    <script>
+                                        function changePicture() {
+                                            alert("Change Picture button clicked!");
+                                        }
+
+                                        function previewSignature(input) {
+                                            const preview = document.getElementById('signature-preview');
+                                            const file = input.files[0];
+                                            if (file) {
+                                                const reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    preview.src = e.target.result;
+                                                };
+                                                reader.readAsDataURL(file);
+                                            }
+                                        }
+
+                                        function changeSignature() {
+                                            document.querySelector('input[name="signature_image"]').click();
+                                        }
+
+                                        function previewPDF(input) {
+                                            const fileName = input.files[0] ? input.files[0].name : "No file chosen";
+                                            document.getElementById("pdf-name").innerText = fileName;
+                                        }
+
+                                        function removePDF() {
+                                            document.querySelector('input[name="pdf_file"]').value = "";
+                                            document.getElementById("pdf-name").innerText = "No file chosen";
+                                        }
+
+
+
+
+
+
+                                        // Get references to the input and dropdown
+                                        const countryInput = document.getElementById('country-input');
+                                        const countryDropdown = document.getElementById('country-dropdown');
+
+                                        // Show the dropdown when clicking the input
+                                        countryInput.addEventListener('click', function () {
+                                            countryDropdown.style.display = 'block';
+                                        });
+
+                                        // Hide the dropdown if clicking outside
+                                        document.addEventListener('click', function (event) {
+                                            if (!countryInput.contains(event.target)) {
+                                                countryDropdown.style.display = 'none';
+                                            }
+                                        });
+
+                                        // Optional: Add event to select a country from the dropdown
+                                        const countryItems = countryDropdown.getElementsByClassName('dropdown-item');
+                                        for (let item of countryItems) {
+                                            item.addEventListener('click', function () {
+                                                countryInput.value = item.innerText;
+                                                countryDropdown.style.display = 'none';
+                                            });
+                                        }
+
+                                        <!-- Add a small script to show the dropdown on input click -->
+
+                                        // Get references to the input and dropdown
+                                        const stateInput = document.getElementById('state-input');
+                                        const stateDropdown = document.getElementById('state-dropdown');
+
+                                        // Show the dropdown when clicking the input
+                                        stateInput.addEventListener('click', function () {
+                                            stateDropdown.style.display = 'block';
+                                        });
+
+                                        // Hide the dropdown if clicking outside
+                                        document.addEventListener('click', function (event) {
+                                            if (!stateInput.contains(event.target)) {
+                                                stateDropdown.style.display = 'none';
+                                            }
+                                        });
+
+                                        // Optional: Add event to select a state from the dropdown
+                                        const stateItems = stateDropdown.getElementsByClassName('dropdown-item');
+                                        for (let item of stateItems) {
+                                            item.addEventListener('click', function () {
+                                                stateInput.value = item.innerText;
+                                                stateDropdown.style.display = 'none';
+                                            });
+                                        }
+
+                                        // Fetch currencies from a currency API (for example, ExchangeRate-API)
+                                        fetch('https://open.er-api.com/v6/latest/USD')  // Example API URL
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const currencyDropdown = document.getElementById('currency-dropdown');
+                                                const currencies = data.rates;
+
+                                                // Loop through and add currencies to the dropdown
+                                                for (const [currencyCode, currencyName] of Object.entries(currencies)) {
+                                                    const option = document.createElement('option');
+                                                    option.value = currencyCode;
+                                                    option.text = `${currencyCode} (${currencyName})`;
+                                                    currencyDropdown.appendChild(option);
+                                                }
+                                            })
+                                            .catch(error => console.error('Error fetching currencies:', error));
+                                    </script>
+
+</body>
+
+</html>

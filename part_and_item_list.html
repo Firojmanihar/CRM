@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parts & Item List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 90%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .tabs span {
+            cursor: pointer;
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        .active {
+            color: blue;
+            font-weight: bold;
+            border-bottom: 2px solid blue;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn,
+        .bulk-update-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn:hover,
+        .bulk-update-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .bulk-update-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .bulk-update-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1;
+            top: 100%;
+            right: 0;
+        }
+
+        .bulk-update-menu a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .bulk-update-menu a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+        <h2>Parts & Item List</h2>
+        <div class="tabs">
+            <span class="active">Active (1)</span>
+            <span>Disabled (0)</span>
+
+
+            <div class="buttons-container" style="margin-left: 60%;">
+                <a href="{% url 'add_product_popup' %}"><button class="btn">Add</button></a>
+                <div class="bulk-update-dropdown">
+                    <button class="bulk-update-btn" onclick="toggleBulkUpdate()">Bulk Update <i
+                            class="fa fa-caret-down"></i></button>
+                    <div class="bulk-update-menu" id="bulkUpdateMenu">
+                        <a href="#" onclick="selectBulkOption('With GST')">With GST</a>
+                        <a href="#" onclick="selectBulkOption('Without GST')">Without GST</a>
+                        <a href="#" onclick="selectBulkOption('With Serial No')">With Serial No</a>
+                        <a href="#" onclick="selectBulkOption('Without Serial No')">Without Serial No</a>
+                        <a href="#" onclick="selectBulkOption('With HSN Code')">With HSN Code</a>
+                        <a href="#" onclick="selectBulkOption('Without HSN Code')">Without HSN Code</a>
+                    </div>
+                </div>
+                <a href="{% url 'part_and_item_list_filter_popup' %}"><button class="bulk-update-btn">Filters <i
+                            class="fa fa-filter"></i></button></a>
+                <a href="{% url 'bulk_upload' %}"><button class="bulk-update-btn">Bulk Uploads <i
+                            class="fa fa-upload"></i></button></a>
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Part/ Item Name</th>
+                        <th>Serial No</th>
+                        <th>Purchase Price</th>
+                        <th>Sales Price</th>
+                        <th>Unit</th>
+                        <th>GST</th>
+                        <th>Photo</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Pen</td>
+                        <td>401303</td>
+                        <td>54.00</td>
+                        <td>1050.00</td>
+                        <td>32 KG</td>
+                        <td>27%</td>
+                        <td>Yes</td>
+                        <td class="icons">
+                            <button class="view-btn" title="View"><i class="fa fa-eye"></i></button>
+                            <button class="edit-btn" data-id="1" title="Edit"><i class="fa fa-pen"></i></button>
+                            <button class="delete-btn" data-id="1" title="Delete"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleBulkUpdate() {
+            document.getElementById("bulkUpdateMenu").classList.toggle("show");
+        }
+        function selectBulkOption(option) {
+            alert("You selected: " + option);
+            document.getElementById("bulkUpdateMenu").classList.remove("show");
+        }
+        window.onclick = function (event) {
+            if (!event.target.matches('.bulk-update-btn')) {
+                var dropdowns = document.getElementsByClassName("bulk-update-menu");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMTP Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+
+        .container {
+            display: flex;
+            max-width: 1800px;
+            margin-top: 20px;
+            margin-left: 70px;
+
+        }
+
+
+        /* Main Content (Email Settings) */
+        /* .email-settings {
+        flex: 1;
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        height: 608px;
+      } */
+
+        .email-settings {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            height: 608px;
+            overflow-y: auto;
+            /* Enable scrolling */
+        }
+
+
+
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+            width: 900px;
+            height: 40px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .input-group button {
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-left: 5px;
+            height: 40px;
+            width: 120px;
+        }
+
+        .group-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .group-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+        }
+
+        .group-item .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .group-item button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .delete-btn {
+            color: red;
+        }
+
+        .edit-btn {
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        {% include "myapp/header.html" %}
+    </div>
+
+
+    <div>
+        {% include "myapp/sidebar.html" %}
+    </div>
+
+    <div class="container">
+
+        <div>
+            {% include "myapp/general_sidebar.html" %}
+        </div>
+
+
+
+
+
+        <!-- Email Settings -->
+        <div class="email-settings" style="height: auto;">
+            <h2 style="margin-bottom: 20px;">Product Group List</h2>
+            <div class="input-group">
+                <input type="text" id="groupName" placeholder="Enter group name">
+                <button onclick="addGroup()">Add</button>
+            </div>
+
+            <ul class="group-list" id="groupList">
+                {% for group in groups %}
+                <li class="group-item" id="group-{{ group.id }}">
+                    <span>{{ group.name }}</span>
+                    <div class="actions">
+                        <button class="edit-btn" onclick="editGroup()">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteGroup()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        function addGroup() {
+            let name = document.getElementById("groupName").value;
+            if (name.trim() === "") {
+                alert("Please enter a valid name");
+                return;
+            }
+
+            fetch("{% url 'add_group' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCSRFToken(),
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `name=${name}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.id) {
+                        let list = document.getElementById("groupList");
+                        let item = document.createElement("li");
+                        item.className = "group-item";
+                        item.id = "group-" + data.id;
+                        item.innerHTML = `
+                    <span>${data.name}</span>
+                    <div class="actions">
+                        <button class="edit-btn" onclick="editGroup(${data.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteGroup(${data.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>`;
+                        list.appendChild(item);
+                        document.getElementById("groupName").value = "";
+                    } else {
+                        alert("Failed to add group");
+                    }
+                });
+        }
+
+        function editGroup(id) {
+            let newName = prompt("Enter new name for the group:");
+            if (newName && newName.trim() !== "") {
+                fetch(`/edit/${id}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCSRFToken(),
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: `name=${encodeURIComponent(newName)}`
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.querySelector(`#group-${id} span`).textContent = newName;
+                        } else {
+                            alert("Failed to update");
+                        }
+                    });
+            }
+        }
+
+        function deleteGroup(id) {
+            fetch(`/delete/${id}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCSRFToken()
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById("group-" + id).remove();
+                    } else {
+                        alert("Failed to delete");
+                    }
+                });
+        }
+
+        function getCSRFToken() {
+            return document.cookie.split("; ")
+                .find(row => row.startsWith("csrftoken"))
+                ?.split("=")[1];
+        }
+    </script>
+
+</body>
+
+</html>

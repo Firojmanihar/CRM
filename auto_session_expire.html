@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMTP Settings</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'myapp/css/sms_notification.css' %}" /> {% endcomment %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    /* .container {
+        display: flex;
+        gap: 20px;
+        max-width: 1200px;
+        margin: auto;
+      } */
+
+    .container {
+      display: flex;
+      max-width: 1800px;
+      margin-top: 20px;
+      margin-left: 70px;
+
+    }
+
+    /* Main Content (Email Settings) */
+    .email-settings {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      height: 608px;
+    }
+
+    h2 {
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+
+    }
+
+    input[type="number"] {
+      width: 50px;
+      text-align: center;
+      height: 30px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 8px 15px;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    {% include "myapp/header.html" %}
+  </div>
+
+
+  <div>
+    {% include "myapp/sidebar.html" %}
+  </div>
+
+  <div class="container">
+
+    <div>
+      {% include "myapp/general_sidebar.html" %}
+    </div>
+
+
+
+
+
+    <!-- Email Settings -->
+    <div class="email-settings" style="height: auto;">
+      <h2>☢️ Auto Session Expire</h2>
+      <form id="sessionForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <input type="checkbox" id="autoExpire" name="autoExpire" checked>
+          <label for="autoExpire">Auto Session Expire</label>
+        </div>
+        <div class="form-group">
+          <label for="expireTime">Mark Auto Session Expire after</label>
+          <input type="number" id="expireTime" name="expireTime" value="60" min="1"> Mins for idle user.
+        </div>
+
+
+        <button type="submit"><a href="{% url 'success_popup' %}" class="btn btn-primary mt-2"> Save</a></button>
+      </form>
+    </div>
+  </div>
+
+
+
+  <script>
+
+
+    $("#autoLeadRegretForm").submit(function (event) {
+      event.preventDefault();
+      let isChecked = $("#autoLeadRegret").is(":checked") ? 1 : 0;
+      let regretDays = $("#regretDays").val();
+
+      $.post("/save_auto_regret/", {
+        auto_lead_regret: isChecked,
+        regret_days: regretDays,
+        csrfmiddlewaretoken: "{{ csrf_token }}"
+      }, function (response) {
+        alert(response.message);
+      });
+    });
+
+
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PO Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 88%;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .header,
+        .sidebar {
+            margin-bottom: 20px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .filters {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filters input,
+        .filters select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn.go {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn.reset {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>{% include "myapp/header.html" %}</div>
+    <div>{% include "myapp/sidebar.html" %}</div>
+    <div class="container">
+        <div class="search-container">
+            <h2>PO Register</h2>
+            <div class="filters">
+                <label>Search</label>
+                <select>
+                    <option>PO</option>
+                    <option>Proforma</option>
+                    <option>Invoice</option>
+                </select>
+                <label>From</label>
+                <input type="date">
+                <label>To</label>
+                <input type="date">
+                <button class="btn go">Go</button>
+                <button class="btn reset">Reset</button>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>PO Date</th>
+                    <th>Company</th>
+                    <th>Payment Terms</th>
+                    <th>PO Amount</th>
+                    <th>Payment Recd</th>
+                    <th>Bal. Payment</th>
+                    <th>Status</th>
+                    <th>Stage</th>
+                    <th>Sales Type</th>
+                    <th>Invoice No.</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="poTable">
+                <tr>
+                    <td>1</td>
+                    <td>27-Nov-2024</td>
+                    <td>KOP Research Centre Pvt. Ltd</td>
+                    <td>N/A</td>
+                    <td>INR 295.00</td>
+                    <td>INR 0.00</td>
+                    <td>INR 295.00</td>
+                    <td class="pending">Pending</td>
+                    <td>N/A</td>
+                    <td>New Sale</td>
+                    <td>N/A</td>
+                    <td class="action-buttons">
+                        <button class="btn"><i class="fa fa-eye"></i></button>
+                        <button class="btn"><i class="fa fa-edit"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="download-btn" onclick="downloadReport()">Download Report</button>
+    </div>
+
+    <script>
+        function downloadReport() {
+            let table = document.getElementById("poTable");
+            let rows = table.getElementsByTagName("tr");
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Order ID,PO Date,Company,Payment Terms,PO Amount,Payment Recd,Bal. Payment,Status,Stage,Sales Type,Invoice No.\n";
+
+            for (let row of rows) {
+                let cells = row.getElementsByTagName("td");
+                let rowData = [];
+                for (let cell of cells) {
+                    rowData.push(cell.innerText);
+                }
+                csvContent += rowData.join(",") + "\n";
+            }
+
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "po_register.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+    </script>
+</body>
+
+</html>
