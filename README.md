@@ -25,4 +25,16 @@ Track Sales: Monitor leads and conversions.
 Dashboard: View customer insights and sales analytics.
 
 # Features
+✔️ Customer Management
+✔️ Sales Tracking
+✔️ Role-Based Access Control
+✔️ Dashboard with Analytics
+✔️ API Support (if implemented)
+
+# Contributing
+1.Fork the repository.
+2.Create a new branch (git checkout -b feature-name).
+3.Make your changes and commit (git commit -m "Added feature").
+4.Push the branch (git push origin feature-name).
+5.Submit a pull request.
 
